@@ -1,0 +1,1636 @@
+# WARNING: This file was auto-generated using snmp_exporter generator, manual changes will be lost.
+auths:
+  inspur_auth:
+    community: P@ssw0rd
+    security_level: noAuthNoPriv
+    auth_protocol: MD5
+    priv_protocol: DES
+    version: 2
+modules:
+  inspur_storage:
+    walk:
+    - 1.3.6.1.4.1.48512.1.101
+    - 1.3.6.1.4.1.48512.1.107
+    - 1.3.6.1.4.1.48512.1.108
+    - 1.3.6.1.4.1.48512.2
+    metrics:
+    - name: physicalStorageTotal
+      oid: 1.3.6.1.4.1.48512.1.101.1.1
+      type: DisplayString
+      help: The whole capacity of the storage - 1.3.6.1.4.1.48512.1.101.1.1
+    - name: physicalStorageUsed
+      oid: 1.3.6.1.4.1.48512.1.101.1.2
+      type: DisplayString
+      help: The storage capacity that have been used - 1.3.6.1.4.1.48512.1.101.1.2
+    - name: physicalStorageAvailable
+      oid: 1.3.6.1.4.1.48512.1.101.1.3
+      type: DisplayString
+      help: The storage that can be used - 1.3.6.1.4.1.48512.1.101.1.3
+    - name: mdiskStorageTotal
+      oid: 1.3.6.1.4.1.48512.1.101.2.1
+      type: DisplayString
+      help: The whole capacity of the storage - 1.3.6.1.4.1.48512.1.101.2.1
+    - name: mdiskStorageUsed
+      oid: 1.3.6.1.4.1.48512.1.101.2.2
+      type: DisplayString
+      help: The storage capacity that have been used - 1.3.6.1.4.1.48512.1.101.2.2
+    - name: mdiskStorageAvailable
+      oid: 1.3.6.1.4.1.48512.1.101.2.3
+      type: DisplayString
+      help: The storage that can be used - 1.3.6.1.4.1.48512.1.101.2.3
+    - name: poolStorageTotal
+      oid: 1.3.6.1.4.1.48512.1.101.3.1
+      type: DisplayString
+      help: The whole capacity of the storage - 1.3.6.1.4.1.48512.1.101.3.1
+    - name: poolStorageUsed
+      oid: 1.3.6.1.4.1.48512.1.101.3.2
+      type: DisplayString
+      help: The storage capacity that have been used - 1.3.6.1.4.1.48512.1.101.3.2
+    - name: poolStorageAvailable
+      oid: 1.3.6.1.4.1.48512.1.101.3.3
+      type: DisplayString
+      help: The storage that can be used - 1.3.6.1.4.1.48512.1.101.3.3
+    - name: mDISKIndex
+      oid: 1.3.6.1.4.1.48512.1.107.1.1.1
+      type: gauge
+      help: The index of MDISK - 1.3.6.1.4.1.48512.1.107.1.1.1
+      indexes:
+      - labelname: mDISKIndex
+        type: gauge
+    - name: mDISK_Name
+      oid: 1.3.6.1.4.1.48512.1.107.1.1.2
+      type: DisplayString
+      help: The name of MDISK - 1.3.6.1.4.1.48512.1.107.1.1.2
+      indexes:
+      - labelname: mDISKIndex
+        type: gauge
+    - name: mDISK_Status
+      oid: 1.3.6.1.4.1.48512.1.107.1.1.3
+      type: DisplayString
+      help: 'The Status of MDISK, include : * online * offline * excluded * degraded_paths
+        * degraded_ports * degraded (applies only to internal MDisks) - 1.3.6.1.4.1.48512.1.107.1.1.3'
+      indexes:
+      - labelname: mDISKIndex
+        type: gauge
+    - name: mDISK_Capacity
+      oid: 1.3.6.1.4.1.48512.1.107.1.1.4
+      type: DisplayString
+      help: The Capacity of MDISK - 1.3.6.1.4.1.48512.1.107.1.1.4
+      indexes:
+      - labelname: mDISKIndex
+        type: gauge
+    - name: mDISK_Mode
+      oid: 1.3.6.1.4.1.48512.1.107.1.1.5
+      type: DisplayString
+      help: The mode of MDISK, include *unmanaged *managed *image *array - 1.3.6.1.4.1.48512.1.107.1.1.5
+      indexes:
+      - labelname: mDISKIndex
+        type: gauge
+    - name: mDISK_MdiskGrpID
+      oid: 1.3.6.1.4.1.48512.1.107.1.1.6
+      type: DisplayString
+      help: The group id of the mdisk - 1.3.6.1.4.1.48512.1.107.1.1.6
+      indexes:
+      - labelname: mDISKIndex
+        type: gauge
+    - name: mDISK_MdiskGrpName
+      oid: 1.3.6.1.4.1.48512.1.107.1.1.7
+      type: DisplayString
+      help: The group name of the mdisk - 1.3.6.1.4.1.48512.1.107.1.1.7
+      indexes:
+      - labelname: mDISKIndex
+        type: gauge
+    - name: mDISK_CtrlLUN
+      oid: 1.3.6.1.4.1.48512.1.107.1.1.8
+      type: DisplayString
+      help: The CtrlLUN of the mdisk - 1.3.6.1.4.1.48512.1.107.1.1.8
+      indexes:
+      - labelname: mDISKIndex
+        type: gauge
+    - name: mDISK_ControllerName
+      oid: 1.3.6.1.4.1.48512.1.107.1.1.9
+      type: DisplayString
+      help: The controller name of the mdisk - 1.3.6.1.4.1.48512.1.107.1.1.9
+      indexes:
+      - labelname: mDISKIndex
+        type: gauge
+    - name: mDISK_UID
+      oid: 1.3.6.1.4.1.48512.1.107.1.1.10
+      type: DisplayString
+      help: The UID of the mdisk - 1.3.6.1.4.1.48512.1.107.1.1.10
+      indexes:
+      - labelname: mDISKIndex
+        type: gauge
+    - name: mDISK_Tier
+      oid: 1.3.6.1.4.1.48512.1.107.1.1.11
+      type: DisplayString
+      help: The Tier of the mdisk - 1.3.6.1.4.1.48512.1.107.1.1.11
+      indexes:
+      - labelname: mDISKIndex
+        type: gauge
+    - name: mDISK_Encripty
+      oid: 1.3.6.1.4.1.48512.1.107.1.1.12
+      type: DisplayString
+      help: The Encripty of the mdisk - 1.3.6.1.4.1.48512.1.107.1.1.12
+      indexes:
+      - labelname: mDISKIndex
+        type: gauge
+    - name: mDISK_SiteID
+      oid: 1.3.6.1.4.1.48512.1.107.1.1.13
+      type: DisplayString
+      help: The SiteID of the mdisk - 1.3.6.1.4.1.48512.1.107.1.1.13
+      indexes:
+      - labelname: mDISKIndex
+        type: gauge
+    - name: mDISK_SiteName
+      oid: 1.3.6.1.4.1.48512.1.107.1.1.14
+      type: DisplayString
+      help: The SiteName of the mdisk - 1.3.6.1.4.1.48512.1.107.1.1.14
+      indexes:
+      - labelname: mDISKIndex
+        type: gauge
+    - name: mDISK_Distributed
+      oid: 1.3.6.1.4.1.48512.1.107.1.1.15
+      type: DisplayString
+      help: The Distributed of the mdisk - 1.3.6.1.4.1.48512.1.107.1.1.15
+      indexes:
+      - labelname: mDISKIndex
+        type: gauge
+    - name: mDISK_Dedupe
+      oid: 1.3.6.1.4.1.48512.1.107.1.1.16
+      type: DisplayString
+      help: The Dedupe of the mdisk - 1.3.6.1.4.1.48512.1.107.1.1.16
+      indexes:
+      - labelname: mDISKIndex
+        type: gauge
+    - name: systemStatusIndex
+      oid: 1.3.6.1.4.1.48512.1.107.2.1.1
+      type: gauge
+      help: The index of systemStatus - 1.3.6.1.4.1.48512.1.107.2.1.1
+      indexes:
+      - labelname: systemStatusIndex
+        type: gauge
+    - name: cpu_pc
+      oid: 1.3.6.1.4.1.48512.1.107.2.1.2
+      type: DisplayString
+      help: Displays the percentage of allocated CPU capacity utilized for the system
+        - 1.3.6.1.4.1.48512.1.107.2.1.2
+      indexes:
+      - labelname: systemStatusIndex
+        type: gauge
+    - name: fc_mb
+      oid: 1.3.6.1.4.1.48512.1.107.2.1.3
+      type: DisplayString
+      help: Displays the total number of megabytes transferred per second for Fibre
+        Channel traffic on the system - 1.3.6.1.4.1.48512.1.107.2.1.3
+      indexes:
+      - labelname: systemStatusIndex
+        type: gauge
+    - name: fc_io
+      oid: 1.3.6.1.4.1.48512.1.107.2.1.4
+      type: DisplayString
+      help: Displays the total input/output (I/O) operations transferred per seconds
+        for Fibre Channel traffic on the system - 1.3.6.1.4.1.48512.1.107.2.1.4
+      indexes:
+      - labelname: systemStatusIndex
+        type: gauge
+    - name: sas_mb
+      oid: 1.3.6.1.4.1.48512.1.107.2.1.5
+      type: DisplayString
+      help: Displays the total number of megabytes transferred per second for serial-attached
+        SCSI (SAS) traffic on the system - 1.3.6.1.4.1.48512.1.107.2.1.5
+      indexes:
+      - labelname: systemStatusIndex
+        type: gauge
+    - name: sas_io
+      oid: 1.3.6.1.4.1.48512.1.107.2.1.6
+      type: DisplayString
+      help: Displays the total I/O operations transferred per second for SAS traffic
+        on the system - 1.3.6.1.4.1.48512.1.107.2.1.6
+      indexes:
+      - labelname: systemStatusIndex
+        type: gauge
+    - name: iscsi_mb
+      oid: 1.3.6.1.4.1.48512.1.107.2.1.7
+      type: DisplayString
+      help: Displays the total number of megabytes transferred per second for iSCSI
+        traffic on the system. - 1.3.6.1.4.1.48512.1.107.2.1.7
+      indexes:
+      - labelname: systemStatusIndex
+        type: gauge
+    - name: iscsi_io
+      oid: 1.3.6.1.4.1.48512.1.107.2.1.8
+      type: DisplayString
+      help: Displays the total I/O operations transferred per second for iSCSI traffic
+        on the system. - 1.3.6.1.4.1.48512.1.107.2.1.8
+      indexes:
+      - labelname: systemStatusIndex
+        type: gauge
+    - name: vdisk_mb
+      oid: 1.3.6.1.4.1.48512.1.107.2.1.9
+      type: DisplayString
+      help: Displays the average number of megabytes transferred per second for read
+        and write operations to volumes during the sample period. - 1.3.6.1.4.1.48512.1.107.2.1.9
+      indexes:
+      - labelname: systemStatusIndex
+        type: gauge
+    - name: vdisk_io
+      oid: 1.3.6.1.4.1.48512.1.107.2.1.10
+      type: DisplayString
+      help: Displays the average amount of I/O operations transferred per second for
+        read and write operations to volumes during the sample period. - 1.3.6.1.4.1.48512.1.107.2.1.10
+      indexes:
+      - labelname: systemStatusIndex
+        type: gauge
+    - name: vdisk_ms
+      oid: 1.3.6.1.4.1.48512.1.107.2.1.11
+      type: DisplayString
+      help: Displays the average amount of time in milliseconds that the system takes
+        to respond to read and write requests to volumes over the sample period. -
+        1.3.6.1.4.1.48512.1.107.2.1.11
+      indexes:
+      - labelname: systemStatusIndex
+        type: gauge
+    - name: mdisk_mb
+      oid: 1.3.6.1.4.1.48512.1.107.2.1.12
+      type: DisplayString
+      help: Displays the average number of megabytes transferred per second for read
+        and write | operations to MDisks during the sample period. - 1.3.6.1.4.1.48512.1.107.2.1.12
+      indexes:
+      - labelname: systemStatusIndex
+        type: gauge
+    - name: mdisk_io
+      oid: 1.3.6.1.4.1.48512.1.107.2.1.13
+      type: DisplayString
+      help: Displays the average amount of I/O operations transferred per second for
+        read and write operations to MDisks during the sample period. - 1.3.6.1.4.1.48512.1.107.2.1.13
+      indexes:
+      - labelname: systemStatusIndex
+        type: gauge
+    - name: mdisk_ms
+      oid: 1.3.6.1.4.1.48512.1.107.2.1.14
+      type: DisplayString
+      help: Displays the average amount of time in milliseconds that the system takes
+        to respond to read and write requests to MDisks over the sample period. -
+        1.3.6.1.4.1.48512.1.107.2.1.14
+      indexes:
+      - labelname: systemStatusIndex
+        type: gauge
+    - name: drive_mb
+      oid: 1.3.6.1.4.1.48512.1.107.2.1.15
+      type: DisplayString
+      help: The Bandwidth of DRIVE - 1.3.6.1.4.1.48512.1.107.2.1.15
+      indexes:
+      - labelname: systemStatusIndex
+        type: gauge
+    - name: drive_io
+      oid: 1.3.6.1.4.1.48512.1.107.2.1.16
+      type: DisplayString
+      help: Displays the average number of megabytes transferred per second for read
+        and write operations to drives during the sample period - 1.3.6.1.4.1.48512.1.107.2.1.16
+      indexes:
+      - labelname: systemStatusIndex
+        type: gauge
+    - name: drive_ms
+      oid: 1.3.6.1.4.1.48512.1.107.2.1.17
+      type: DisplayString
+      help: Displays the average amount of time in milliseconds that the system takes
+        to respond to read and write requests to drives over the sample period. -
+        1.3.6.1.4.1.48512.1.107.2.1.17
+      indexes:
+      - labelname: systemStatusIndex
+        type: gauge
+    - name: cache_write_rate
+      oid: 1.3.6.1.4.1.48512.1.107.2.1.18
+      type: DisplayString
+      help: Displays the percentage of write cache of total cache capacity. - 1.3.6.1.4.1.48512.1.107.2.1.18
+      indexes:
+      - labelname: systemStatusIndex
+        type: gauge
+    - name: cache_read_rate
+      oid: 1.3.6.1.4.1.48512.1.107.2.1.19
+      type: DisplayString
+      help: Displays the percentage of read cache of total cache capacity. - 1.3.6.1.4.1.48512.1.107.2.1.19
+      indexes:
+      - labelname: systemStatusIndex
+        type: gauge
+    - name: vdisk_us
+      oid: 1.3.6.1.4.1.48512.1.107.2.1.20
+      type: DisplayString
+      help: Displays the average amount of time in microseconds that the system takes
+        to respond to read and write requests to volumes over the sample period. -
+        1.3.6.1.4.1.48512.1.107.2.1.20
+      indexes:
+      - labelname: systemStatusIndex
+        type: gauge
+    - name: mdisk_us
+      oid: 1.3.6.1.4.1.48512.1.107.2.1.21
+      type: DisplayString
+      help: Displays the average amount of time in microseconds that the system takes
+        to respond to read and write requests to MDisks over the sample period. -
+        1.3.6.1.4.1.48512.1.107.2.1.21
+      indexes:
+      - labelname: systemStatusIndex
+        type: gauge
+    - name: drive_us
+      oid: 1.3.6.1.4.1.48512.1.107.2.1.22
+      type: DisplayString
+      help: Displays the average amount of time in microseconds that the system takes
+        to respond to read and write requests to drives over the sample period. -
+        1.3.6.1.4.1.48512.1.107.2.1.22
+      indexes:
+      - labelname: systemStatusIndex
+        type: gauge
+    - name: rdma_front_mb
+      oid: 1.3.6.1.4.1.48512.1.107.2.1.23
+      type: DisplayString
+      help: Displays the mbps of front rdma port. - 1.3.6.1.4.1.48512.1.107.2.1.23
+      indexes:
+      - labelname: systemStatusIndex
+        type: gauge
+    - name: rdma_front_io
+      oid: 1.3.6.1.4.1.48512.1.107.2.1.24
+      type: DisplayString
+      help: Displays the iops of front rdma port. - 1.3.6.1.4.1.48512.1.107.2.1.24
+      indexes:
+      - labelname: systemStatusIndex
+        type: gauge
+    - name: rdma_back_mb
+      oid: 1.3.6.1.4.1.48512.1.107.2.1.25
+      type: DisplayString
+      help: Displays the mbps of back rdma port. - 1.3.6.1.4.1.48512.1.107.2.1.25
+      indexes:
+      - labelname: systemStatusIndex
+        type: gauge
+    - name: rdma_back_io
+      oid: 1.3.6.1.4.1.48512.1.107.2.1.26
+      type: DisplayString
+      help: Displays the iops of front rdma port. - 1.3.6.1.4.1.48512.1.107.2.1.26
+      indexes:
+      - labelname: systemStatusIndex
+        type: gauge
+    - name: rdma_cont_mb
+      oid: 1.3.6.1.4.1.48512.1.107.2.1.27
+      type: DisplayString
+      help: Displays the mbps of cont rdma port. - 1.3.6.1.4.1.48512.1.107.2.1.27
+      indexes:
+      - labelname: systemStatusIndex
+        type: gauge
+    - name: rdma_cont_io
+      oid: 1.3.6.1.4.1.48512.1.107.2.1.28
+      type: DisplayString
+      help: Displays the iops of cont rdma port. - 1.3.6.1.4.1.48512.1.107.2.1.28
+      indexes:
+      - labelname: systemStatusIndex
+        type: gauge
+    - name: rdma_mb
+      oid: 1.3.6.1.4.1.48512.1.107.2.1.29
+      type: DisplayString
+      help: Displays the total mbps of rdma port. - 1.3.6.1.4.1.48512.1.107.2.1.29
+      indexes:
+      - labelname: systemStatusIndex
+        type: gauge
+    - name: rdma_io
+      oid: 1.3.6.1.4.1.48512.1.107.2.1.30
+      type: DisplayString
+      help: Displays the total iops of rdma port. - 1.3.6.1.4.1.48512.1.107.2.1.30
+      indexes:
+      - labelname: systemStatusIndex
+        type: gauge
+    - name: fcPortID
+      oid: 1.3.6.1.4.1.48512.1.107.3.1.1
+      type: gauge
+      help: The port id of fc - 1.3.6.1.4.1.48512.1.107.3.1.1
+      indexes:
+      - labelname: fcPortID
+        type: gauge
+      - labelname: fcNodeID
+        type: gauge
+    - name: fcNodeID
+      oid: 1.3.6.1.4.1.48512.1.107.3.1.2
+      type: gauge
+      help: The node id of fc - 1.3.6.1.4.1.48512.1.107.3.1.2
+      indexes:
+      - labelname: fcPortID
+        type: gauge
+      - labelname: fcNodeID
+        type: gauge
+    - name: fcPortMbps
+      oid: 1.3.6.1.4.1.48512.1.107.3.1.3
+      type: DisplayString
+      help: The mbps of FC - 1.3.6.1.4.1.48512.1.107.3.1.3
+      indexes:
+      - labelname: fcPortID
+        type: gauge
+      - labelname: fcNodeID
+        type: gauge
+    - name: nasStatsNodeId
+      oid: 1.3.6.1.4.1.48512.1.107.5.1.1
+      type: gauge
+      help: The node id - 1.3.6.1.4.1.48512.1.107.5.1.1
+      indexes:
+      - labelname: nasStatsNodeId
+        type: gauge
+    - name: nasStatsNodeName
+      oid: 1.3.6.1.4.1.48512.1.107.5.1.2
+      type: DisplayString
+      help: The node name - 1.3.6.1.4.1.48512.1.107.5.1.2
+      indexes:
+      - labelname: nasStatsNodeId
+        type: gauge
+    - name: nasStatsSampleTime
+      oid: 1.3.6.1.4.1.48512.1.107.5.1.3
+      type: DisplayString
+      help: The smaple time - 1.3.6.1.4.1.48512.1.107.5.1.3
+      indexes:
+      - labelname: nasStatsNodeId
+        type: gauge
+    - name: nasStatsCpuUsr
+      oid: 1.3.6.1.4.1.48512.1.107.5.1.4
+      type: DisplayString
+      help: The cup user - 1.3.6.1.4.1.48512.1.107.5.1.4
+      indexes:
+      - labelname: nasStatsNodeId
+        type: gauge
+    - name: nasStatsCpuNice
+      oid: 1.3.6.1.4.1.48512.1.107.5.1.5
+      type: DisplayString
+      help: The cup nice - 1.3.6.1.4.1.48512.1.107.5.1.5
+      indexes:
+      - labelname: nasStatsNodeId
+        type: gauge
+    - name: nasStatsCpuSys
+      oid: 1.3.6.1.4.1.48512.1.107.5.1.6
+      type: DisplayString
+      help: The cup system - 1.3.6.1.4.1.48512.1.107.5.1.6
+      indexes:
+      - labelname: nasStatsNodeId
+        type: gauge
+    - name: nasStatsCpuWait
+      oid: 1.3.6.1.4.1.48512.1.107.5.1.7
+      type: DisplayString
+      help: The cup wait - 1.3.6.1.4.1.48512.1.107.5.1.7
+      indexes:
+      - labelname: nasStatsNodeId
+        type: gauge
+    - name: nasStatsCpuUsed
+      oid: 1.3.6.1.4.1.48512.1.107.5.1.8
+      type: DisplayString
+      help: The cup used - 1.3.6.1.4.1.48512.1.107.5.1.8
+      indexes:
+      - labelname: nasStatsNodeId
+        type: gauge
+    - name: nasStatsCpuIsoft
+      oid: 1.3.6.1.4.1.48512.1.107.5.1.9
+      type: DisplayString
+      help: The cup isoft - 1.3.6.1.4.1.48512.1.107.5.1.9
+      indexes:
+      - labelname: nasStatsNodeId
+        type: gauge
+    - name: nasStatsMemUsed
+      oid: 1.3.6.1.4.1.48512.1.107.5.1.10
+      type: DisplayString
+      help: The memory used - 1.3.6.1.4.1.48512.1.107.5.1.10
+      indexes:
+      - labelname: nasStatsNodeId
+        type: gauge
+    - name: nasStatsThreadTotal
+      oid: 1.3.6.1.4.1.48512.1.107.5.1.11
+      type: gauge
+      help: The thread total number - 1.3.6.1.4.1.48512.1.107.5.1.11
+      indexes:
+      - labelname: nasStatsNodeId
+        type: gauge
+    - name: nasStatsThreadRunning
+      oid: 1.3.6.1.4.1.48512.1.107.5.1.12
+      type: gauge
+      help: The running thread number - 1.3.6.1.4.1.48512.1.107.5.1.12
+      indexes:
+      - labelname: nasStatsNodeId
+        type: gauge
+    - name: nasStatsThreadSleeping
+      oid: 1.3.6.1.4.1.48512.1.107.5.1.13
+      type: gauge
+      help: The running sleeping thread number - 1.3.6.1.4.1.48512.1.107.5.1.13
+      indexes:
+      - labelname: nasStatsNodeId
+        type: gauge
+    - name: nasStatsThreadStopped
+      oid: 1.3.6.1.4.1.48512.1.107.5.1.14
+      type: gauge
+      help: The stopped thread number - 1.3.6.1.4.1.48512.1.107.5.1.14
+      indexes:
+      - labelname: nasStatsNodeId
+        type: gauge
+    - name: nasStatsThreadZombie
+      oid: 1.3.6.1.4.1.48512.1.107.5.1.15
+      type: gauge
+      help: The zombie thread number - 1.3.6.1.4.1.48512.1.107.5.1.15
+      indexes:
+      - labelname: nasStatsNodeId
+        type: gauge
+    - name: driveID
+      oid: 1.3.6.1.4.1.48512.1.108.4.1.1
+      type: gauge
+      help: The id of driver - 1.3.6.1.4.1.48512.1.108.4.1.1
+      indexes:
+      - labelname: driveID
+        type: gauge
+    - name: drive_status
+      oid: 1.3.6.1.4.1.48512.1.108.4.1.2
+      type: DisplayString
+      help: The status of the drive - 1.3.6.1.4.1.48512.1.108.4.1.2
+      indexes:
+      - labelname: driveID
+        type: gauge
+    - name: drive_capacity
+      oid: 1.3.6.1.4.1.48512.1.108.4.1.3
+      type: DisplayString
+      help: The capacity of the drive - 1.3.6.1.4.1.48512.1.108.4.1.3
+      indexes:
+      - labelname: driveID
+        type: gauge
+    - name: drive_errorNumber
+      oid: 1.3.6.1.4.1.48512.1.108.4.1.4
+      type: DisplayString
+      help: The error number of the drive - 1.3.6.1.4.1.48512.1.108.4.1.4
+      indexes:
+      - labelname: driveID
+        type: gauge
+    - name: drive_currentRole
+      oid: 1.3.6.1.4.1.48512.1.108.4.1.5
+      type: DisplayString
+      help: The current role of the drive - 1.3.6.1.4.1.48512.1.108.4.1.5
+      indexes:
+      - labelname: driveID
+        type: gauge
+    - name: drive_techType
+      oid: 1.3.6.1.4.1.48512.1.108.4.1.6
+      type: DisplayString
+      help: The tech type of the drive - 1.3.6.1.4.1.48512.1.108.4.1.6
+      indexes:
+      - labelname: driveID
+        type: gauge
+    - name: drive_enclosureID
+      oid: 1.3.6.1.4.1.48512.1.108.4.1.7
+      type: DisplayString
+      help: The enclosure of the drive - 1.3.6.1.4.1.48512.1.108.4.1.7
+      indexes:
+      - labelname: driveID
+        type: gauge
+    - name: drive_slotID
+      oid: 1.3.6.1.4.1.48512.1.108.4.1.8
+      type: DisplayString
+      help: The slot id of the drive - 1.3.6.1.4.1.48512.1.108.4.1.8
+      indexes:
+      - labelname: driveID
+        type: gauge
+    - name: drive_blockSize
+      oid: 1.3.6.1.4.1.48512.1.108.4.1.9
+      type: DisplayString
+      help: The block size of the drive - 1.3.6.1.4.1.48512.1.108.4.1.9
+      indexes:
+      - labelname: driveID
+        type: gauge
+    - name: drive_fruID
+      oid: 1.3.6.1.4.1.48512.1.108.4.1.10
+      type: DisplayString
+      help: The FRU_identify of the drive - 1.3.6.1.4.1.48512.1.108.4.1.10
+      indexes:
+      - labelname: driveID
+        type: gauge
+    - name: drive_vendorID
+      oid: 1.3.6.1.4.1.48512.1.108.4.1.11
+      type: DisplayString
+      help: The vendor id of the drive - 1.3.6.1.4.1.48512.1.108.4.1.11
+      indexes:
+      - labelname: driveID
+        type: gauge
+    - name: drive_firmwareLevel
+      oid: 1.3.6.1.4.1.48512.1.108.4.1.12
+      type: DisplayString
+      help: The firmware level of the drive - 1.3.6.1.4.1.48512.1.108.4.1.12
+      indexes:
+      - labelname: driveID
+        type: gauge
+    - name: drive_util
+      oid: 1.3.6.1.4.1.48512.1.108.4.1.13
+      type: DisplayString
+      help: The util of the drive - 1.3.6.1.4.1.48512.1.108.4.1.13
+      indexes:
+      - labelname: driveID
+        type: gauge
+    - name: psuID
+      oid: 1.3.6.1.4.1.48512.1.108.6.1.1
+      type: gauge
+      help: Indicates the ID of the PSU in the enclosure. - 1.3.6.1.4.1.48512.1.108.6.1.1
+      indexes:
+      - labelname: psuID
+        type: gauge
+      - labelname: psu_enclosureID
+        type: gauge
+    - name: psu_enclosureID
+      oid: 1.3.6.1.4.1.48512.1.108.6.1.2
+      type: gauge
+      help: Indicates the ID of the enclosure containing the PSU - 1.3.6.1.4.1.48512.1.108.6.1.2
+      indexes:
+      - labelname: psuID
+        type: gauge
+      - labelname: psu_enclosureID
+        type: gauge
+    - name: psu_status
+      oid: 1.3.6.1.4.1.48512.1.108.6.1.3
+      type: DisplayString
+      help: 'Indicates the status of the power and cooling unit in the enclosure:
+        * online indicates a PSU is present and working normally * offline indicates
+        a PSU cannot be detected * degraded indicates a PSU is present but not working
+        normally - 1.3.6.1.4.1.48512.1.108.6.1.3'
+      indexes:
+      - labelname: psuID
+        type: gauge
+      - labelname: psu_enclosureID
+        type: gauge
+    - name: psu_inputFail
+      oid: 1.3.6.1.4.1.48512.1.108.6.1.4
+      type: DisplayString
+      help: '* on indicates no usable input power is detected from the power distribution
+        unit - 1.3.6.1.4.1.48512.1.108.6.1.4'
+      indexes:
+      - labelname: psuID
+        type: gauge
+      - labelname: psu_enclosureID
+        type: gauge
+    - name: psu_outputFail
+      oid: 1.3.6.1.4.1.48512.1.108.6.1.5
+      type: DisplayString
+      help: '* on indicates no usable output power is detected from the distribution
+        unit - 1.3.6.1.4.1.48512.1.108.6.1.5'
+      indexes:
+      - labelname: psuID
+        type: gauge
+      - labelname: psu_enclosureID
+        type: gauge
+    - name: psu_inputPower
+      oid: 1.3.6.1.4.1.48512.1.108.6.1.6
+      type: DisplayString
+      help: '* ac indicates the power supply requires AC power input - 1.3.6.1.4.1.48512.1.108.6.1.6'
+      indexes:
+      - labelname: psuID
+        type: gauge
+      - labelname: psu_enclosureID
+        type: gauge
+    - name: psu_outputPower
+      oid: 1.3.6.1.4.1.48512.1.108.6.1.7
+      type: DisplayString
+      help: reserved - 1.3.6.1.4.1.48512.1.108.6.1.7
+      indexes:
+      - labelname: psuID
+        type: gauge
+      - labelname: psu_enclosureID
+        type: gauge
+    - name: psu_redundant
+      oid: 1.3.6.1.4.1.48512.1.108.6.1.8
+      type: DisplayString
+      help: 'Indicates (yes or no) whether you can remove the power supply: * If the
+        PSU is on an expansion enclosure, the other PSU must be online - 1.3.6.1.4.1.48512.1.108.6.1.8'
+      indexes:
+      - labelname: psuID
+        type: gauge
+      - labelname: psu_enclosureID
+        type: gauge
+    - name: psu_errorSequenceNumber
+      oid: 1.3.6.1.4.1.48512.1.108.6.1.9
+      type: DisplayString
+      help: Indicates the error log (or event log) number of the highest priority
+        error for this object - 1.3.6.1.4.1.48512.1.108.6.1.9
+      indexes:
+      - labelname: psuID
+        type: gauge
+      - labelname: psu_enclosureID
+        type: gauge
+    - name: psu_fruID
+      oid: 1.3.6.1.4.1.48512.1.108.6.1.10
+      type: DisplayString
+      help: Indicates the 11S number, combining the manufacturing part number and
+        the serial number. - 1.3.6.1.4.1.48512.1.108.6.1.10
+      indexes:
+      - labelname: psuID
+        type: gauge
+      - labelname: psu_enclosureID
+        type: gauge
+    - name: fanID
+      oid: 1.3.6.1.4.1.48512.1.108.7.1.1
+      type: gauge
+      help: Indicates the fan module ID of the fan module that is in the enclosure
+        - 1.3.6.1.4.1.48512.1.108.7.1.1
+      indexes:
+      - labelname: fanID
+        type: gauge
+      - labelname: fan_enclosureID
+        type: DisplayString
+    - name: fan_enclosureID
+      oid: 1.3.6.1.4.1.48512.1.108.7.1.2
+      type: DisplayString
+      help: Indicates the enclosure ID of the enclosure that contains the fan module.
+        - 1.3.6.1.4.1.48512.1.108.7.1.2
+      indexes:
+      - labelname: fanID
+        type: gauge
+      - labelname: fan_enclosureID
+        type: DisplayString
+    - name: fan_status
+      oid: 1.3.6.1.4.1.48512.1.108.7.1.3
+      type: DisplayString
+      help: Indicates the combined status of the fan module and any contained fans
+        - 1.3.6.1.4.1.48512.1.108.7.1.3
+      indexes:
+      - labelname: fanID
+        type: gauge
+      - labelname: fan_enclosureID
+        type: DisplayString
+    - name: fan_faultLedStatus
+      oid: 1.3.6.1.4.1.48512.1.108.7.1.4
+      type: DisplayString
+      help: 'Indicates the status of the fault light-emitting diode (LED) on the fan
+        module: * on, which indicates that the LED is on * off, which indicates that
+        the LED is off * unknown, which indicates that the LED status is unknown -
+        1.3.6.1.4.1.48512.1.108.7.1.4'
+      indexes:
+      - labelname: fanID
+        type: gauge
+      - labelname: fan_enclosureID
+        type: DisplayString
+    - name: fan_errorSequenceNumber
+      oid: 1.3.6.1.4.1.48512.1.108.7.1.5
+      type: DisplayString
+      help: Indicates the event log sequence number of the current event that is logged
+        against the fan module - 1.3.6.1.4.1.48512.1.108.7.1.5
+      indexes:
+      - labelname: fanID
+        type: gauge
+      - labelname: fan_enclosureID
+        type: DisplayString
+    - name: fan_fruID
+      oid: 1.3.6.1.4.1.48512.1.108.7.1.6
+      type: DisplayString
+      help: Indicates the FRU identity of the fan module. - 1.3.6.1.4.1.48512.1.108.7.1.6
+      indexes:
+      - labelname: fanID
+        type: gauge
+      - labelname: fan_enclosureID
+        type: DisplayString
+    - name: bbuID
+      oid: 1.3.6.1.4.1.48512.1.108.8.1.1
+      type: gauge
+      help: Identifies the battery in the enclosure. - 1.3.6.1.4.1.48512.1.108.8.1.1
+      indexes:
+      - labelname: bbuID
+        type: gauge
+      - labelname: bbu_enclosureID
+        type: gauge
+    - name: bbu_enclosureID
+      oid: 1.3.6.1.4.1.48512.1.108.8.1.2
+      type: gauge
+      help: Identifies the identity of the enclosure that contains the battery. -
+        1.3.6.1.4.1.48512.1.108.8.1.2
+      indexes:
+      - labelname: bbuID
+        type: gauge
+      - labelname: bbu_enclosureID
+        type: gauge
+    - name: bbu_status
+      oid: 1.3.6.1.4.1.48512.1.108.8.1.3
+      type: DisplayString
+      help: 'Identifies the status of the battery: * online indicates the battery
+        is present and working as usual - 1.3.6.1.4.1.48512.1.108.8.1.3'
+      indexes:
+      - labelname: bbuID
+        type: gauge
+      - labelname: bbu_enclosureID
+        type: gauge
+    - name: bbu_chargingStatus
+      oid: 1.3.6.1.4.1.48512.1.108.8.1.4
+      type: DisplayString
+      help: 'Identifies the charging state of the battery: * charged indicates the
+        battery is fully charged - 1.3.6.1.4.1.48512.1.108.8.1.4'
+      indexes:
+      - labelname: bbuID
+        type: gauge
+      - labelname: bbu_enclosureID
+        type: gauge
+    - name: bbu_percentCharged
+      oid: 1.3.6.1.4.1.48512.1.108.8.1.5
+      type: DisplayString
+      help: Indicates the charge of battery (in a percentage) - 1.3.6.1.4.1.48512.1.108.8.1.5
+      indexes:
+      - labelname: bbuID
+        type: gauge
+      - labelname: bbu_enclosureID
+        type: gauge
+    - name: bbu_capacityLeftMAH
+      oid: 1.3.6.1.4.1.48512.1.108.8.1.6
+      type: DisplayString
+      help: Identifies the battery's remaining charge capacity in milliampere-hour
+        (mAh). - 1.3.6.1.4.1.48512.1.108.8.1.6
+      indexes:
+      - labelname: bbuID
+        type: gauge
+      - labelname: bbu_enclosureID
+        type: gauge
+    - name: bbu_fullCapacityMAH
+      oid: 1.3.6.1.4.1.48512.1.108.8.1.7
+      type: DisplayString
+      help: Identifies the fully-charged capacity of the battery in mAh (this diminishes
+        as the battery ages). - 1.3.6.1.4.1.48512.1.108.8.1.7
+      indexes:
+      - labelname: bbuID
+        type: gauge
+      - labelname: bbu_enclosureID
+        type: gauge
+    - name: bbu_powerOnHours
+      oid: 1.3.6.1.4.1.48512.1.108.8.1.8
+      type: DisplayString
+      help: Identifies the number of hours the battery has been in a powered node
+        (not necessarily the same node). - 1.3.6.1.4.1.48512.1.108.8.1.8
+      indexes:
+      - labelname: bbuID
+        type: gauge
+      - labelname: bbu_enclosureID
+        type: gauge
+    - name: bbu_firmwareLevel
+      oid: 1.3.6.1.4.1.48512.1.108.8.1.9
+      type: DisplayString
+      help: The version of the microcode image that is installed on the battery. -
+        1.3.6.1.4.1.48512.1.108.8.1.9
+      indexes:
+      - labelname: bbuID
+        type: gauge
+      - labelname: bbu_enclosureID
+        type: gauge
+    - name: bbu_fruID
+      oid: 1.3.6.1.4.1.48512.1.108.8.1.10
+      type: DisplayString
+      help: Identifies the 11S number, combining the manufacturing part number and
+        the serial number. - 1.3.6.1.4.1.48512.1.108.8.1.10
+      indexes:
+      - labelname: bbuID
+        type: gauge
+      - labelname: bbu_enclosureID
+        type: gauge
+    #- name: enclosureID
+    #  oid: 1.3.6.1.4.1.48512.1.108.9.1.1
+    #  type: gauge
+    #  help: Indicates the ID of the enclosure. - 1.3.6.1.4.1.48512.1.108.9.1.1
+    #  indexes:
+    #  - labelname: enclosureID
+    #    type: gauge
+    - name: enclosure_status
+      oid: 1.3.6.1.4.1.48512.1.108.9.1.2
+      type: DisplayString
+      help: 'Indicates if an enclosure is visible to the SAS network: * online if
+        a managed or unmanaged enclosure is visible * offline if a managed enclosure
+        is not visible, and other fields hold their last known values - 1.3.6.1.4.1.48512.1.108.9.1.2'
+      indexes:
+      - labelname: enclosureID
+        type: gauge
+    - name: enclosure_type
+      oid: 1.3.6.1.4.1.48512.1.108.9.1.3
+      type: DisplayString
+      help: 'Indicates the type of enclosure: * control * expansion - 1.3.6.1.4.1.48512.1.108.9.1.3'
+      indexes:
+      - labelname: enclosureID
+        type: gauge
+    - name: enclosure_managed
+      oid: 1.3.6.1.4.1.48512.1.108.9.1.4
+      type: DisplayString
+      help: 'Indicates if the enclosure is managed: * yes * no - 1.3.6.1.4.1.48512.1.108.9.1.4'
+      indexes:
+      - labelname: enclosureID
+        type: gauge
+    - name: enclosure_productMTM
+      oid: 1.3.6.1.4.1.48512.1.108.9.1.5
+      type: DisplayString
+      help: Indicates the product machine type and model. - 1.3.6.1.4.1.48512.1.108.9.1.5
+      indexes:
+      - labelname: enclosureID
+        type: gauge
+    - name: enclosure_serialNumber
+      oid: 1.3.6.1.4.1.48512.1.108.9.1.6
+      type: DisplayString
+      help: Indicates the serial number of the enclosure - 1.3.6.1.4.1.48512.1.108.9.1.6
+      indexes:
+      - labelname: enclosureID
+        type: gauge
+    - name: enclosure_totalCanister
+      oid: 1.3.6.1.4.1.48512.1.108.9.1.7
+      type: DisplayString
+      help: Indicates the maximum number of canisters for this enclosure type. - 1.3.6.1.4.1.48512.1.108.9.1.7
+      indexes:
+      - labelname: enclosureID
+        type: gauge
+    - name: enclosure_onlineCanister
+      oid: 1.3.6.1.4.1.48512.1.108.9.1.8
+      type: DisplayString
+      help: Indicates the number of canisters contained in this enclosure that are
+        online. - 1.3.6.1.4.1.48512.1.108.9.1.8
+      indexes:
+      - labelname: enclosureID
+        type: gauge
+    - name: enclosure_totalPSU
+      oid: 1.3.6.1.4.1.48512.1.108.9.1.9
+      type: DisplayString
+      help: Indicates the number of power and cooling units in this enclosure. - 1.3.6.1.4.1.48512.1.108.9.1.9
+      indexes:
+      - labelname: enclosureID
+        type: gauge
+    - name: enclosure_onlinePSU
+      oid: 1.3.6.1.4.1.48512.1.108.9.1.10
+      type: DisplayString
+      help: Indicates the number of power-supply units (PSUs) contained in this enclosure
+        that are online. - 1.3.6.1.4.1.48512.1.108.9.1.10
+      indexes:
+      - labelname: enclosureID
+        type: gauge
+    - name: enclosure_driverSlot
+      oid: 1.3.6.1.4.1.48512.1.108.9.1.11
+      type: DisplayString
+      help: Indicates the number of drive slots in the enclosure - 1.3.6.1.4.1.48512.1.108.9.1.11
+      indexes:
+      - labelname: enclosureID
+        type: gauge
+    - name: enclosure_fruID
+      oid: 1.3.6.1.4.1.48512.1.108.9.1.12
+      type: DisplayString
+      help: Indicates the 11S serial number that combines the manufacturing part number
+        and the serial number. - 1.3.6.1.4.1.48512.1.108.9.1.12
+      indexes:
+      - labelname: enclosureID
+        type: gauge
+    - name: canisterID
+      oid: 1.3.6.1.4.1.48512.1.108.10.1.1
+      type: gauge
+      help: Identifies which of the canisters in the enclosure. - 1.3.6.1.4.1.48512.1.108.10.1.1
+      indexes:
+      - labelname: canisterID
+        type: gauge
+      - labelname: canister_enclosureID
+        type: gauge
+    - name: canister_enclosureID
+      oid: 1.3.6.1.4.1.48512.1.108.10.1.2
+      type: gauge
+      help: The identity of the enclosure that contains the canister. - 1.3.6.1.4.1.48512.1.108.10.1.2
+      indexes:
+      - labelname: canisterID
+        type: gauge
+      - labelname: canister_enclosureID
+        type: gauge
+    - name: canister_status
+      oid: 1.3.6.1.4.1.48512.1.108.10.1.3
+      type: DisplayString
+      help: 'The status of the canister: * online: the canister is present and working
+        normally - 1.3.6.1.4.1.48512.1.108.10.1.3'
+      indexes:
+      - labelname: canisterID
+        type: gauge
+      - labelname: canister_enclosureID
+        type: gauge
+    - name: canister_type
+      oid: 1.3.6.1.4.1.48512.1.108.10.1.4
+      type: DisplayString
+      help: 'The type of canister: * node * expansion - 1.3.6.1.4.1.48512.1.108.10.1.4'
+      indexes:
+      - labelname: canisterID
+        type: gauge
+      - labelname: canister_enclosureID
+        type: gauge
+    - name: canister_temperature
+      oid: 1.3.6.1.4.1.48512.1.108.10.1.5
+      type: DisplayString
+      help: The temperature of the canister in degrees Centigrade. - 1.3.6.1.4.1.48512.1.108.10.1.5
+      indexes:
+      - labelname: canisterID
+        type: gauge
+      - labelname: canister_enclosureID
+        type: gauge
+    - name: canister_fruID
+      oid: 1.3.6.1.4.1.48512.1.108.10.1.6
+      type: DisplayString
+      help: The 11S number that combines the manufacturing part number and the serial
+        number. - 1.3.6.1.4.1.48512.1.108.10.1.6
+      indexes:
+      - labelname: canisterID
+        type: gauge
+      - labelname: canister_enclosureID
+        type: gauge
+    - name: iscsiPortID
+      oid: 1.3.6.1.4.1.48512.1.108.11.1.1.1
+      type: gauge
+      help: Indicates the ID of the Ethernet port. - 1.3.6.1.4.1.48512.1.108.11.1.1.1
+      indexes:
+      - labelname: iscsiPort_index
+        type: gauge
+    - name: iscsiPort_nodeID
+      oid: 1.3.6.1.4.1.48512.1.108.11.1.1.2
+      type: gauge
+      help: Indicates the ID of the node that contains the port. - 1.3.6.1.4.1.48512.1.108.11.1.1.2
+      indexes:
+      - labelname: iscsiPort_index
+        type: gauge
+    - name: iscsiPort_protocolType
+      oid: 1.3.6.1.4.1.48512.1.108.11.1.1.3
+      type: DisplayString
+      help: The protocol type of iscsiPort - 1.3.6.1.4.1.48512.1.108.11.1.1.3
+      indexes:
+      - labelname: iscsiPort_index
+        type: gauge
+    - name: iscsiPort_ip
+      oid: 1.3.6.1.4.1.48512.1.108.11.1.1.4
+      type: DisplayString
+      help: Indicates the IPv4 address (and is blank if there is none) - 1.3.6.1.4.1.48512.1.108.11.1.1.4
+      indexes:
+      - labelname: iscsiPort_index
+        type: gauge
+    - name: iscsiPort_mask
+      oid: 1.3.6.1.4.1.48512.1.108.11.1.1.5
+      type: DisplayString
+      help: Indicates the IPv4 subnet mask (and is blank if there is none) - 1.3.6.1.4.1.48512.1.108.11.1.1.5
+      indexes:
+      - labelname: iscsiPort_index
+        type: gauge
+    - name: iscsiPort_gateWay
+      oid: 1.3.6.1.4.1.48512.1.108.11.1.1.6
+      type: DisplayString
+      help: Indicates the IPv4 gateway (and is blank if there is none) - 1.3.6.1.4.1.48512.1.108.11.1.1.6
+      indexes:
+      - labelname: iscsiPort_index
+        type: gauge
+    - name: iscsiPort_ipv6
+      oid: 1.3.6.1.4.1.48512.1.108.11.1.1.7
+      type: DisplayString
+      help: Indicates the IPv6 address (and is blank if there is none) - 1.3.6.1.4.1.48512.1.108.11.1.1.7
+      indexes:
+      - labelname: iscsiPort_index
+        type: gauge
+    - name: iscsiPort_prefix6
+      oid: 1.3.6.1.4.1.48512.1.108.11.1.1.8
+      type: DisplayString
+      help: Indicates the IPv6 prefix (and is blank if there is none) - 1.3.6.1.4.1.48512.1.108.11.1.1.8
+      indexes:
+      - labelname: iscsiPort_index
+        type: gauge
+    - name: iscsiPort_gateWay6
+      oid: 1.3.6.1.4.1.48512.1.108.11.1.1.9
+      type: DisplayString
+      help: Indicates the IPv6 gateway address (and is blank if there is none) - 1.3.6.1.4.1.48512.1.108.11.1.1.9
+      indexes:
+      - labelname: iscsiPort_index
+        type: gauge
+    - name: iscsiPort_mac
+      oid: 1.3.6.1.4.1.48512.1.108.11.1.1.10
+      type: DisplayString
+      help: Indicates the current MAC address (blank if unknown) - 1.3.6.1.4.1.48512.1.108.11.1.1.10
+      indexes:
+      - labelname: iscsiPort_index
+        type: gauge
+    - name: iscsiPort_duplex
+      oid: 1.3.6.1.4.1.48512.1.108.11.1.1.11
+      type: DisplayString
+      help: Indicates the current duplex state of the port(blank if unknown) - 1.3.6.1.4.1.48512.1.108.11.1.1.11
+      indexes:
+      - labelname: iscsiPort_index
+        type: gauge
+    - name: iscsiPort_state
+      oid: 1.3.6.1.4.1.48512.1.108.11.1.1.12
+      type: DisplayString
+      help: Indicates the state of iSCSI addresses - 1.3.6.1.4.1.48512.1.108.11.1.1.12
+      indexes:
+      - labelname: iscsiPort_index
+        type: gauge
+    - name: iscsiPort_linkState
+      oid: 1.3.6.1.4.1.48512.1.108.11.1.1.13
+      type: DisplayString
+      help: Indicates the link state of ethernet port - 1.3.6.1.4.1.48512.1.108.11.1.1.13
+      indexes:
+      - labelname: iscsiPort_index
+        type: gauge
+    - name: iscsiPort_host
+      oid: 1.3.6.1.4.1.48512.1.108.11.1.1.14
+      type: DisplayString
+      help: Displays the IPv4 address used for host attach. - 1.3.6.1.4.1.48512.1.108.11.1.1.14
+      indexes:
+      - labelname: iscsiPort_index
+        type: gauge
+    - name: iscsiPort_remoteCopy
+      oid: 1.3.6.1.4.1.48512.1.108.11.1.1.15
+      type: DisplayString
+      help: Displays the IPv4 remote copy port group ID - 1.3.6.1.4.1.48512.1.108.11.1.1.15
+      indexes:
+      - labelname: iscsiPort_index
+        type: gauge
+    - name: iscsiPort_index
+      oid: 1.3.6.1.4.1.48512.1.108.11.1.1.16
+      type: gauge
+      help: Indicates the index of the records. - 1.3.6.1.4.1.48512.1.108.11.1.1.16
+      indexes:
+      - labelname: iscsiPort_index
+        type: gauge
+    - name: sasID
+      oid: 1.3.6.1.4.1.48512.1.108.11.2.1.1
+      type: gauge
+      help: Indicates the line number within the displayed information (numeric string).
+        - 1.3.6.1.4.1.48512.1.108.11.2.1.1
+      indexes:
+      - labelname: sasID
+        type: gauge
+    - name: sasPort_nodeID
+      oid: 1.3.6.1.4.1.48512.1.108.11.2.1.2
+      type: DisplayString
+      help: Indicates the ID of the node containing the port (numeric string). - 1.3.6.1.4.1.48512.1.108.11.2.1.2
+      indexes:
+      - labelname: sasID
+        type: gauge
+    - name: sasPort_portID
+      oid: 1.3.6.1.4.1.48512.1.108.11.2.1.3
+      type: DisplayString
+      help: Indicates the ID of the port. - 1.3.6.1.4.1.48512.1.108.11.2.1.3
+      indexes:
+      - labelname: sasID
+        type: gauge
+    - name: sasPort_portSpeed
+      oid: 1.3.6.1.4.1.48512.1.108.11.2.1.4
+      type: DisplayString
+      help: Indicates the speed of the I/O port (in XGb) - 1.3.6.1.4.1.48512.1.108.11.2.1.4
+      indexes:
+      - labelname: sasID
+        type: gauge
+    - name: sasPort_WWPN
+      oid: 1.3.6.1.4.1.48512.1.108.11.2.1.5
+      type: DisplayString
+      help: Indicates the worldwide port name (WWPN) for the I/O port (16-character
+        hexadecimal string). - 1.3.6.1.4.1.48512.1.108.11.2.1.5
+      indexes:
+      - labelname: sasID
+        type: gauge
+    - name: sasPort_status
+      oid: 1.3.6.1.4.1.48512.1.108.11.2.1.6
+      type: DisplayString
+      help: Indicates the status of the port (numeric string) - 1.3.6.1.4.1.48512.1.108.11.2.1.6
+      indexes:
+      - labelname: sasID
+        type: gauge
+    - name: sasPort_switchWWPN
+      oid: 1.3.6.1.4.1.48512.1.108.11.2.1.7
+      type: DisplayString
+      help: Indicates the WWPN of the switch port if attached to switch (16-character
+        hexadecimal string), or is blank - 1.3.6.1.4.1.48512.1.108.11.2.1.7
+      indexes:
+      - labelname: sasID
+        type: gauge
+    - name: sasPort_attachment
+      oid: 1.3.6.1.4.1.48512.1.108.11.2.1.8
+      type: DisplayString
+      help: Indicates what the port is attached to - 1.3.6.1.4.1.48512.1.108.11.2.1.8
+      indexes:
+      - labelname: sasID
+        type: gauge
+    - name: sasPort_type
+      oid: 1.3.6.1.4.1.48512.1.108.11.2.1.9
+      type: DisplayString
+      help: Indicates how the port is configured - 1.3.6.1.4.1.48512.1.108.11.2.1.9
+      indexes:
+      - labelname: sasID
+        type: gauge
+    - name: fcID
+      oid: 1.3.6.1.4.1.48512.1.108.11.3.1.1
+      type: gauge
+      help: Indicates a unique value for the object - 1.3.6.1.4.1.48512.1.108.11.3.1.1
+      indexes:
+      - labelname: fcID
+        type: gauge
+    - name: fcPort_nodeID
+      oid: 1.3.6.1.4.1.48512.1.108.11.3.1.2
+      type: DisplayString
+      help: Indicates the ID of the node containing the port - 1.3.6.1.4.1.48512.1.108.11.3.1.2
+      indexes:
+      - labelname: fcID
+        type: gauge
+    - name: fcPort_portID
+      oid: 1.3.6.1.4.1.48512.1.108.11.3.1.3
+      type: DisplayString
+      help: Indicates the platform port ID - 1.3.6.1.4.1.48512.1.108.11.3.1.3
+      indexes:
+      - labelname: fcID
+        type: gauge
+    - name: fcPort_portSpeed
+      oid: 1.3.6.1.4.1.48512.1.108.11.3.1.4
+      type: DisplayString
+      help: Indicates the I/O port speed - 1.3.6.1.4.1.48512.1.108.11.3.1.4
+      indexes:
+      - labelname: fcID
+        type: gauge
+    - name: fcPort_WWPN
+      oid: 1.3.6.1.4.1.48512.1.108.11.3.1.5
+      type: DisplayString
+      help: Indicates the I/O port worldwide port name (WWPN) - 1.3.6.1.4.1.48512.1.108.11.3.1.5
+      indexes:
+      - labelname: fcID
+        type: gauge
+    - name: fcPort_status
+      oid: 1.3.6.1.4.1.48512.1.108.11.3.1.6
+      type: DisplayString
+      help: Indicates if the port is configured to a device of Fibre Channel (FC)
+        port - 1.3.6.1.4.1.48512.1.108.11.3.1.6
+      indexes:
+      - labelname: fcID
+        type: gauge
+    - name: fcPort_switchWWPN
+      oid: 1.3.6.1.4.1.48512.1.108.11.3.1.7
+      type: DisplayString
+      help: Indicates the WWPN of the device most recently attached to the port -
+        1.3.6.1.4.1.48512.1.108.11.3.1.7
+      indexes:
+      - labelname: fcID
+        type: gauge
+    - name: fcPort_attachment
+      oid: 1.3.6.1.4.1.48512.1.108.11.3.1.8
+      type: DisplayString
+      help: Indicates if the port is attached to an FC switch or directly to an FC
+        host - 1.3.6.1.4.1.48512.1.108.11.3.1.8
+      indexes:
+      - labelname: fcID
+        type: gauge
+    - name: fcPort_fabricWWN
+      oid: 1.3.6.1.4.1.48512.1.108.11.3.1.9
+      type: DisplayString
+      help: Indicates the World Wide Name (WWN) value for the connected fabric string
+        - 1.3.6.1.4.1.48512.1.108.11.3.1.9
+      indexes:
+      - labelname: fcID
+        type: gauge
+    - name: fcPort_type
+      oid: 1.3.6.1.4.1.48512.1.108.11.3.1.10
+      type: DisplayString
+      help: Indicates the type of platform port - 1.3.6.1.4.1.48512.1.108.11.3.1.10
+      indexes:
+      - labelname: fcID
+        type: gauge
+    - name: rdmaPort_id
+      oid: 1.3.6.1.4.1.48512.1.108.11.4.1.1
+      type: gauge
+      help: id of rdma port list. - 1.3.6.1.4.1.48512.1.108.11.4.1.1
+      indexes:
+      - labelname: rdmaPort_id
+        type: gauge
+    - name: rdmaPort_nodeID
+      oid: 1.3.6.1.4.1.48512.1.108.11.4.1.2
+      type: gauge
+      help: node id of rdma port. - 1.3.6.1.4.1.48512.1.108.11.4.1.2
+      indexes:
+      - labelname: rdmaPort_id
+        type: gauge
+    - name: rdmaPort_nodeName
+      oid: 1.3.6.1.4.1.48512.1.108.11.4.1.3
+      type: DisplayString
+      help: node name of rdma port. - 1.3.6.1.4.1.48512.1.108.11.4.1.3
+      indexes:
+      - labelname: rdmaPort_id
+        type: gauge
+    - name: rdmaPort_portID
+      oid: 1.3.6.1.4.1.48512.1.108.11.4.1.4
+      type: gauge
+      help: port id of rdma port. - 1.3.6.1.4.1.48512.1.108.11.4.1.4
+      indexes:
+      - labelname: rdmaPort_id
+        type: gauge
+    - name: rdmaPort_type
+      oid: 1.3.6.1.4.1.48512.1.108.11.4.1.5
+      type: DisplayString
+      help: type of rdma port. - 1.3.6.1.4.1.48512.1.108.11.4.1.5
+      indexes:
+      - labelname: rdmaPort_id
+        type: gauge
+    - name: rdmaPort_status
+      oid: 1.3.6.1.4.1.48512.1.108.11.4.1.6
+      type: DisplayString
+      help: status of rdma port. - 1.3.6.1.4.1.48512.1.108.11.4.1.6
+      indexes:
+      - labelname: rdmaPort_id
+        type: gauge
+    - name: rdmaPort_nStatus
+      oid: 1.3.6.1.4.1.48512.1.108.11.4.1.7
+      type: gauge
+      help: the number of rdma port status  - 1.3.6.1.4.1.48512.1.108.11.4.1.7
+      indexes:
+      - labelname: rdmaPort_id
+        type: gauge
+    - name: rdmaPort_gid
+      oid: 1.3.6.1.4.1.48512.1.108.11.4.1.8
+      type: DisplayString
+      help: gid of rdma port. - 1.3.6.1.4.1.48512.1.108.11.4.1.8
+      indexes:
+      - labelname: rdmaPort_id
+        type: gauge
+    - name: rdmaPort_gid6
+      oid: 1.3.6.1.4.1.48512.1.108.11.4.1.9
+      type: DisplayString
+      help: gid_6 of rdma port. - 1.3.6.1.4.1.48512.1.108.11.4.1.9
+      indexes:
+      - labelname: rdmaPort_id
+        type: gauge
+    - name: rdmaPort_guid
+      oid: 1.3.6.1.4.1.48512.1.108.11.4.1.10
+      type: DisplayString
+      help: guid of rdma port. - 1.3.6.1.4.1.48512.1.108.11.4.1.10
+      indexes:
+      - labelname: rdmaPort_id
+        type: gauge
+    - name: rdmaPort_adapterLocation
+      oid: 1.3.6.1.4.1.48512.1.108.11.4.1.11
+      type: DisplayString
+      help: adapter location of rdma port. - 1.3.6.1.4.1.48512.1.108.11.4.1.11
+      indexes:
+      - labelname: rdmaPort_id
+        type: gauge
+    - name: rdmaPort_adapterPortID
+      oid: 1.3.6.1.4.1.48512.1.108.11.4.1.12
+      type: DisplayString
+      help: adapter port ID of rdma port. - 1.3.6.1.4.1.48512.1.108.11.4.1.12
+      indexes:
+      - labelname: rdmaPort_id
+        type: gauge
+    - name: clusterName
+      oid: 1.3.6.1.4.1.48512.2.1
+      type: DisplayString
+      help: The name of the cluster - 1.3.6.1.4.1.48512.2.1
+    - name: clusterStatus
+      oid: 1.3.6.1.4.1.48512.2.2
+      type: DisplayString
+      help: The status of the cluster - 1.3.6.1.4.1.48512.2.2
+    - name: clusterTime
+      oid: 1.3.6.1.4.1.48512.2.3
+      type: DisplayString
+      help: The time of the cluster - 1.3.6.1.4.1.48512.2.3
+    - name: clusterSysVersion
+      oid: 1.3.6.1.4.1.48512.2.4
+      type: DisplayString
+      help: The version of the cluster's software - 1.3.6.1.4.1.48512.2.4
+    - name: nodeIndex
+      oid: 1.3.6.1.4.1.48512.2.5.1.1
+      type: gauge
+      help: Indicates the node or node canister unique ID - 1.3.6.1.4.1.48512.2.5.1.1
+      indexes:
+      - labelname: nodeIndex
+        type: gauge
+    - name: nodeName
+      oid: 1.3.6.1.4.1.48512.2.5.1.2
+      type: DisplayString
+      help: Indicates the node or node canister name - 1.3.6.1.4.1.48512.2.5.1.2
+      indexes:
+      - labelname: nodeIndex
+        type: gauge
+    - name: nodeCPUCount
+      oid: 1.3.6.1.4.1.48512.2.5.1.3
+      type: DisplayString
+      help: Indicates the maximum number of CPUs for the node. - 1.3.6.1.4.1.48512.2.5.1.3
+      indexes:
+      - labelname: nodeIndex
+        type: gauge
+    - name: nodeCPUSocket
+      oid: 1.3.6.1.4.1.48512.2.5.1.4
+      type: DisplayString
+      help: Indicates the ID of socket the CPU fields refer to - 1.3.6.1.4.1.48512.2.5.1.4
+      indexes:
+      - labelname: nodeIndex
+        type: gauge
+    - name: nodeCPUConfigured
+      oid: 1.3.6.1.4.1.48512.2.5.1.5
+      type: DisplayString
+      help: Indicates the configured CPU for this socket - 1.3.6.1.4.1.48512.2.5.1.5
+      indexes:
+      - labelname: nodeIndex
+        type: gauge
+    - name: nodeCPUActual
+      oid: 1.3.6.1.4.1.48512.2.5.1.6
+      type: DisplayString
+      help: Indicates the currently installed CPU in this socket - 1.3.6.1.4.1.48512.2.5.1.6
+      indexes:
+      - labelname: nodeIndex
+        type: gauge
+    - name: nodeMemoryConfigured
+      oid: 1.3.6.1.4.1.48512.2.5.1.7
+      type: DisplayString
+      help: Indicates the configured amount of memory (in GB) - 1.3.6.1.4.1.48512.2.5.1.7
+      indexes:
+      - labelname: nodeIndex
+        type: gauge
+    - name: nodeMemoryReal
+      oid: 1.3.6.1.4.1.48512.2.5.1.8
+      type: DisplayString
+      help: Indicates the currently installed amount of memory (in GB) - 1.3.6.1.4.1.48512.2.5.1.8
+      indexes:
+      - labelname: nodeIndex
+        type: gauge
+    - name: ioGroupID
+      oid: 1.3.6.1.4.1.48512.2.5.1.9
+      type: DisplayString
+      help: Indicates the input/output (I/O) group ID. - 1.3.6.1.4.1.48512.2.5.1.9
+      indexes:
+      - labelname: nodeIndex
+        type: gauge
+    - name: ioGroupName
+      oid: 1.3.6.1.4.1.48512.2.5.1.10
+      type: DisplayString
+      help: Indicates the I/O group name. - 1.3.6.1.4.1.48512.2.5.1.10
+      indexes:
+      - labelname: nodeIndex
+        type: gauge
+    - name: enclosureID
+      oid: 1.3.6.1.4.1.48512.2.6.1.1
+      type: gauge
+      help: Indicates the ID of the enclosure. - 1.3.6.1.4.1.48512.2.6.1.1
+      indexes:
+      - labelname: enclosureID
+        type: gauge
+    - name: enclosure_status
+      oid: 1.3.6.1.4.1.48512.2.6.1.2
+      type: DisplayString
+      help: 'Indicates if an enclosure is visible to the SAS network: * online if
+        a managed or unmanaged enclosure is visible * offline if a managed enclosure
+        is not visible, and other fields hold their last known values - 1.3.6.1.4.1.48512.2.6.1.2'
+      indexes:
+      - labelname: enclosureID
+        type: gauge
+    - name: enclosure_type
+      oid: 1.3.6.1.4.1.48512.2.6.1.3
+      type: DisplayString
+      help: 'Indicates the type of enclosure: * control * expansion - 1.3.6.1.4.1.48512.2.6.1.3'
+      indexes:
+      - labelname: enclosureID
+        type: gauge
+    - name: enclosure_managed
+      oid: 1.3.6.1.4.1.48512.2.6.1.4
+      type: DisplayString
+      help: 'Indicates if the enclosure is managed: * yes * no - 1.3.6.1.4.1.48512.2.6.1.4'
+      indexes:
+      - labelname: enclosureID
+        type: gauge
+    - name: portID
+      oid: 1.3.6.1.4.1.48512.2.7.1.1
+      type: gauge
+      help: The port index of the ip info table - 1.3.6.1.4.1.48512.2.7.1.1
+      indexes:
+      - labelname: portID
+        type: gauge
+      - labelname: clusterID
+        type: DisplayString
+    - name: clusterID
+      oid: 1.3.6.1.4.1.48512.2.7.1.2
+      type: DisplayString
+      help: The cluster index of the ip info table - 1.3.6.1.4.1.48512.2.7.1.2
+      indexes:
+      - labelname: portID
+        type: gauge
+      - labelname: clusterID
+        type: DisplayString
+    - name: ipInfo_clusterName
+      oid: 1.3.6.1.4.1.48512.2.7.1.3
+      type: DisplayString
+      help: The cluster name of the ip info table - 1.3.6.1.4.1.48512.2.7.1.3
+      indexes:
+      - labelname: portID
+        type: gauge
+      - labelname: clusterID
+        type: DisplayString
+    - name: ipInfo_location
+      oid: 1.3.6.1.4.1.48512.2.7.1.4
+      type: DisplayString
+      help: The location of the ip info table - 1.3.6.1.4.1.48512.2.7.1.4
+      indexes:
+      - labelname: portID
+        type: gauge
+      - labelname: clusterID
+        type: DisplayString
+    - name: ipInfo_ipAddress
+      oid: 1.3.6.1.4.1.48512.2.7.1.5
+      type: DisplayString
+      help: The IPv4 address of the ip info table - 1.3.6.1.4.1.48512.2.7.1.5
+      indexes:
+      - labelname: portID
+        type: gauge
+      - labelname: clusterID
+        type: DisplayString
+    - name: ipInfo_subnetMask
+      oid: 1.3.6.1.4.1.48512.2.7.1.6
+      type: DisplayString
+      help: The IPv4 subnetMask of the ip info table - 1.3.6.1.4.1.48512.2.7.1.6
+      indexes:
+      - labelname: portID
+        type: gauge
+      - labelname: clusterID
+        type: DisplayString
+    - name: ipInfo_gateway
+      oid: 1.3.6.1.4.1.48512.2.7.1.7
+      type: DisplayString
+      help: The IPv4 gateway of the ip info table - 1.3.6.1.4.1.48512.2.7.1.7
+      indexes:
+      - labelname: portID
+        type: gauge
+      - labelname: clusterID
+        type: DisplayString
+    - name: ipInfo_ipAddress6
+      oid: 1.3.6.1.4.1.48512.2.7.1.8
+      type: DisplayString
+      help: The IPv6 address of the ip info table - 1.3.6.1.4.1.48512.2.7.1.8
+      indexes:
+      - labelname: portID
+        type: gauge
+      - labelname: clusterID
+        type: DisplayString
+    - name: ipInfo_prefix6
+      oid: 1.3.6.1.4.1.48512.2.7.1.9
+      type: DisplayString
+      help: The IPv6 prefix of the ip info table - 1.3.6.1.4.1.48512.2.7.1.9
+      indexes:
+      - labelname: portID
+        type: gauge
+      - labelname: clusterID
+        type: DisplayString
+    - name: ipInfo_gateway6
+      oid: 1.3.6.1.4.1.48512.2.7.1.10
+      type: DisplayString
+      help: The IPv6 gateway of the ip info table - 1.3.6.1.4.1.48512.2.7.1.10
+      indexes:
+      - labelname: portID
+        type: gauge
+      - labelname: clusterID
+        type: DisplayString
+    - name: clusterIP_portID
+      oid: 1.3.6.1.4.1.48512.2.8.1.1
+      type: gauge
+      help: The port ID of the cluster IP table - 1.3.6.1.4.1.48512.2.8.1.1
+      indexes:
+      - labelname: clusterIP_portID
+        type: gauge
+    - name: clusterIP_clusterID
+      oid: 1.3.6.1.4.1.48512.2.8.1.2
+      type: DisplayString
+      help: The cluster ID of the cluster IP table - 1.3.6.1.4.1.48512.2.8.1.2
+      indexes:
+      - labelname: clusterIP_portID
+        type: gauge
+    - name: clusterIP_clusterName
+      oid: 1.3.6.1.4.1.48512.2.8.1.3
+      type: DisplayString
+      help: The cluster name of the cluster IP table - 1.3.6.1.4.1.48512.2.8.1.3
+      indexes:
+      - labelname: clusterIP_portID
+        type: gauge
+    - name: clusterIP_location
+      oid: 1.3.6.1.4.1.48512.2.8.1.4
+      type: DisplayString
+      help: The location of the cluster IP table - 1.3.6.1.4.1.48512.2.8.1.4
+      indexes:
+      - labelname: clusterIP_portID
+        type: gauge
+    - name: clusterIP_ipAddress
+      oid: 1.3.6.1.4.1.48512.2.8.1.5
+      type: DisplayString
+      help: The IPv4 address of the cluster IP table - 1.3.6.1.4.1.48512.2.8.1.5
+      indexes:
+      - labelname: clusterIP_portID
+        type: gauge
+    - name: clusterIP_subnetMask
+      oid: 1.3.6.1.4.1.48512.2.8.1.6
+      type: DisplayString
+      help: The IPv4 subnetMask of the cluster IP table - 1.3.6.1.4.1.48512.2.8.1.6
+      indexes:
+      - labelname: clusterIP_portID
+        type: gauge
+    - name: clusterIP_gateway
+      oid: 1.3.6.1.4.1.48512.2.8.1.7
+      type: DisplayString
+      help: The IPv4 gateway of the cluster IP table - 1.3.6.1.4.1.48512.2.8.1.7
+      indexes:
+      - labelname: clusterIP_portID
+        type: gauge
+    - name: clusterIP_ipAddress6
+      oid: 1.3.6.1.4.1.48512.2.8.1.8
+      type: DisplayString
+      help: The IPv6 address of the cluster IP table - 1.3.6.1.4.1.48512.2.8.1.8
+      indexes:
+      - labelname: clusterIP_portID
+        type: gauge
+    - name: clusterIP_prefix6
+      oid: 1.3.6.1.4.1.48512.2.8.1.9
+      type: DisplayString
+      help: The IPv6 prefix of the cluster IP table - 1.3.6.1.4.1.48512.2.8.1.9
+      indexes:
+      - labelname: clusterIP_portID
+        type: gauge
+    - name: clusterIP_gateway6
+      oid: 1.3.6.1.4.1.48512.2.8.1.10
+      type: DisplayString
+      help: The IPv6 gateway of the cluster IP table - 1.3.6.1.4.1.48512.2.8.1.10
+      indexes:
+      - labelname: clusterIP_portID
+        type: gauge

@@ -1,0 +1,2199 @@
+--
+-- Copyright(C) Inspur Corp. 2016,2017
+--
+--
+-- COMPONENT NAME: SNMP
+-- FILE NAME: /mcs/module_src/user/snmp/INSPUR_EXT_MIB_1.0.0.MIB
+-- DESCRIPTION: SNMP MIB file.
+-- INSPUR-EXT-MIB
+-- ****************************************************
+--
+-- Change Log.
+--
+-- 20-06-2017   houyingli File creation
+--
+
+INSPUR-EXT-MIB DEFINITIONS::= BEGIN
+IMPORTS 
+    enterprises, MODULE-IDENTITY,OBJECT-TYPE,
+        FROM SNMPv2-SMI
+ 	TEXTUAL-CONVENTION, DisplayString
+    	FROM SNMPv2-TC;        
+    
+inspur OBJECT IDENTIFIER::={ enterprises 48512 }
+ 
+device OBJECT IDENTIFIER::={ inspur 1 }
+
+systemstorage OBJECT IDENTIFIER::={ device 101 }
+physicalstorage OBJECT IDENTIFIER::={ systemstorage 1 }
+mdiskstorage OBJECT IDENTIFIER::={ systemstorage 2 }
+poolstorage OBJECT IDENTIFIER::={ systemstorage 3 }
+
+performance OBJECT IDENTIFIER::={ device 107 }
+information OBJECT IDENTIFIER::={ device 108 }
+expandCardInfo OBJECT IDENTIFIER::={ information 11 }	
+clusterparameter OBJECT IDENTIFIER::={ inspur 2 }
+   
+
+clusterName OBJECT-TYPE
+			 SYNTAX   DisplayString 
+			 MAX-ACCESS  read-write
+			 STATUS      current
+			 DESCRIPTION "The name of the cluster"
+			 ::= { clusterparameter 1 }
+clusterStatus OBJECT-TYPE
+			 SYNTAX   DisplayString 
+			 MAX-ACCESS  read-only
+			 STATUS      current
+			 DESCRIPTION "The status of the cluster"
+			 ::= { clusterparameter 2 }
+clusterTime OBJECT-TYPE
+			 SYNTAX   DisplayString 
+			 MAX-ACCESS  read-write
+			 STATUS      current
+			 DESCRIPTION "The time of the cluster"
+			 ::= { clusterparameter 3 }		
+clusterSysVersion OBJECT-TYPE
+			 SYNTAX   DisplayString 
+			 MAX-ACCESS  read-only
+			 STATUS      current
+			 DESCRIPTION "The version of the cluster's software"
+			 ::= { clusterparameter 4 }			 
+clusterConfigTable  OBJECT-TYPE
+			SYNTAX SEQUENCE OF ClusterConfigEntry
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "The table of the MDISK performance information"
+			::= { clusterparameter 5 }
+			
+clusterConfigEntry OBJECT-TYPE
+			SYNTAX ClusterConfigEntry
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "An entry (conceptual row )in the mdisk table"	
+			INDEX { nodeIndex }
+			::= { clusterConfigTable 1 }      
+			
+ClusterConfigEntry ::=
+			SEQUENCE {
+				nodeIndex			INTEGER, 
+				nodeName					DisplayString,
+				nodeCPUCount				DisplayString,	
+				nodeCPUSocket				DisplayString,
+				nodeCPUConfigured			DisplayString,
+				nodeCPUActual				DisplayString,
+				nodeMemoryConfigured		DisplayString,
+				nodeMemoryReal      		DisplayString,
+				ioGroupID					DisplayString,
+				ioGroupName					DisplayString	
+			 }		
+nodeIndex OBJECT-TYPE
+			SYNTAX  INTEGER (1..2147483647)
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "Indicates the node or node canister unique ID"
+			::= { clusterConfigEntry 1 }		
+nodeName OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "Indicates the node or node canister name"
+			::= { clusterConfigEntry 2 }	
+nodeCPUCount OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "Indicates the maximum number of CPUs
+						for the node."
+			::= { clusterConfigEntry 3 }
+nodeCPUSocket OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "Indicates the ID of socket the CPU fields
+						 refer to"
+			::= { clusterConfigEntry 4 }	
+nodeCPUConfigured OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "Indicates the configured CPU for this socket"
+			::= { clusterConfigEntry 5 }
+nodeCPUActual OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "Indicates the currently installed CPU in this socket"
+			::= { clusterConfigEntry 6 }
+nodeMemoryConfigured OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "Indicates the configured amount of memory (in GB)"
+			::= { clusterConfigEntry 7 }
+nodeMemoryReal OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "Indicates the currently installed amount of memory (in GB)"
+			::= { clusterConfigEntry 8 }
+ioGroupID OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "Indicates the input/output (I/O) group ID."
+			::= { clusterConfigEntry 9 }
+ioGroupName OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "Indicates the I/O group name."
+			::= { clusterConfigEntry 10 }			
+			
+
+enclosureStatusTable  OBJECT-TYPE
+			SYNTAX SEQUENCE OF EnclosureStatusEntry
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "The table of the enclosure status"
+			::= { clusterparameter 6 }
+			
+enclosureStatusEntry OBJECT-TYPE
+			SYNTAX EnclosureStatusEntry
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "An entry (conceptual row )in the enclosure status table"	
+			INDEX { enclosureID }
+			::= { enclosureStatusTable 1 }      
+			
+EnclosureStatusEntry ::=
+			SEQUENCE {
+				enclosureID				INTEGER, 
+				enclosure-status		DisplayString,
+				enclosure-type			DisplayString,
+				enclosure-managed		DisplayString
+			 }		
+enclosureID OBJECT-TYPE
+			SYNTAX  INTEGER (1..2147483647)
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "Indicates the ID of the enclosure.   "
+			::= { enclosureStatusEntry 1 }		
+enclosure-status OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "Indicates if an enclosure is visible to the SAS
+				network:                                           
+				* online if a managed or unmanaged enclosure is   
+				visible                                            
+				* offline if a managed enclosure is not visible,  
+				and other fields hold their last known values.  
+				* degraded if an enclosure is visible, but not
+				down both strands     "
+			::= { enclosureStatusEntry 2 }	
+enclosure-type OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "Indicates the type of enclosure:
+					* control
+					* expansion   "
+			::= { enclosureStatusEntry 3 }	
+enclosure-managed OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "Indicates if the enclosure is managed:
+				* yes 
+				* no    "
+			::= { enclosureStatusEntry 4 }	
+			
+clusterIPInfoTable  OBJECT-TYPE
+			SYNTAX SEQUENCE OF ClusterIPInfoEntry
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "The table of the MDISK performance information"
+			::= { clusterparameter 7 }
+			
+clusterIPInfoEntry OBJECT-TYPE
+			SYNTAX ClusterIPInfoEntry
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "An entry (conceptual row )in the cluster ip info table"	
+			INDEX { portID, clusterID }
+			::= { clusterIPInfoTable 1 }      
+			
+ClusterIPInfoEntry ::=
+			SEQUENCE {
+				portID				INTEGER,
+				clusterID			DisplayString, 
+				ipInfo-clusterName	DisplayString,
+				ipInfo-location		DisplayString,
+				ipInfo-ipAddress	DisplayString,
+				ipInfo-subnetMask	DisplayString,
+				ipInfo-gateway		DisplayString,
+				ipInfo-ipAddress6	DisplayString,   
+				ipInfo-prefix6		DisplayString,
+				ipInfo-gateway6		DisplayString
+			 }	
+portID OBJECT-TYPE
+			SYNTAX  INTEGER (1..2147483647)
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "The port index of the ip info table"
+			::= { clusterIPInfoEntry 1 }			 
+clusterID OBJECT-TYPE
+			SYNTAX  DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "The cluster index of the ip info table"
+			::= { clusterIPInfoEntry 2 } 
+ipInfo-clusterName OBJECT-TYPE
+			SYNTAX  DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "The cluster name of the ip info table"
+			::= { clusterIPInfoEntry 3 }
+ipInfo-location OBJECT-TYPE
+			SYNTAX  DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "The location of the ip info table"
+			::= { clusterIPInfoEntry 4 }
+ipInfo-ipAddress OBJECT-TYPE
+			SYNTAX  DisplayString
+			MAX-ACCESS read-write
+			STATUS current
+			DESCRIPTION "The IPv4 address of the ip info table"
+			::= { clusterIPInfoEntry 5 }
+ipInfo-subnetMask OBJECT-TYPE
+			SYNTAX  DisplayString
+			MAX-ACCESS read-write
+			STATUS current
+			DESCRIPTION "The IPv4 subnetMask of the ip info table"
+			::= { clusterIPInfoEntry 6 }
+ipInfo-gateway OBJECT-TYPE
+			SYNTAX  DisplayString
+			MAX-ACCESS read-write
+			STATUS current
+			DESCRIPTION "The IPv4 gateway of the ip info table"
+			::= { clusterIPInfoEntry 7 }
+ipInfo-ipAddress6 OBJECT-TYPE
+			SYNTAX  DisplayString
+			MAX-ACCESS read-write
+			STATUS current
+			DESCRIPTION "The IPv6 address of the ip info table"
+			::= { clusterIPInfoEntry 8 }
+ipInfo-prefix6 OBJECT-TYPE
+			SYNTAX  DisplayString
+			MAX-ACCESS read-write
+			STATUS current
+			DESCRIPTION "The IPv6 prefix of the ip info table"
+			::= { clusterIPInfoEntry 9 }
+ipInfo-gateway6 OBJECT-TYPE
+			SYNTAX  DisplayString
+			MAX-ACCESS read-write
+			STATUS current
+			DESCRIPTION "The IPv6 gateway of the ip info table"
+			::= { clusterIPInfoEntry 10 }
+
+clusterIPTable  OBJECT-TYPE
+			SYNTAX SEQUENCE OF ClusterIPEntry
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "The table of the MDISK performance information"
+			::= { clusterparameter 8 }
+			
+clusterIPEntry OBJECT-TYPE
+			SYNTAX ClusterIPEntry
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "An entry (conceptual row )in the cluster cluster IP table"	
+			INDEX { clusterIP-portID }
+			::= { clusterIPTable 1 }      
+			
+ClusterIPEntry ::=
+			SEQUENCE {
+				clusterIP-portID        INTEGER,
+				clusterIP-clusterID     DisplayString, 
+				clusterIP-clusterName   DisplayString,
+				clusterIP-location      DisplayString,
+				clusterIP-ipAddress     DisplayString,
+				clusterIP-subnetMask    DisplayString,
+				clusterIP-gateway       DisplayString,
+				clusterIP-ipAddress6    DisplayString,   
+				clusterIP-prefix6       DisplayString,
+				clusterIP-gateway6      DisplayString
+			 }	
+clusterIP-portID OBJECT-TYPE
+			SYNTAX  INTEGER (1..2147483647)
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "The port ID of the cluster IP table"
+			::= { clusterIPEntry 1 }			 
+clusterIP-clusterID OBJECT-TYPE
+			SYNTAX  DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "The cluster ID of the cluster IP table"
+			::= { clusterIPEntry 2 } 
+clusterIP-clusterName OBJECT-TYPE
+			SYNTAX  DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "The cluster name of the cluster IP table"
+			::= { clusterIPEntry 3 }
+clusterIP-location OBJECT-TYPE
+			SYNTAX  DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "The location of the cluster IP table"
+			::= { clusterIPEntry 4 }
+clusterIP-ipAddress OBJECT-TYPE
+			SYNTAX  DisplayString
+			MAX-ACCESS read-write
+			STATUS current
+			DESCRIPTION "The IPv4 address of the cluster IP table"
+			::= { clusterIPEntry 5 }
+clusterIP-subnetMask OBJECT-TYPE
+			SYNTAX  DisplayString
+			MAX-ACCESS read-write
+			STATUS current
+			DESCRIPTION "The IPv4 subnetMask of the cluster IP table"
+			::= { clusterIPEntry 6 }
+clusterIP-gateway OBJECT-TYPE
+			SYNTAX  DisplayString
+			MAX-ACCESS read-write
+			STATUS current
+			DESCRIPTION "The IPv4 gateway of the cluster IP table"
+			::= { clusterIPEntry 7 }
+clusterIP-ipAddress6 OBJECT-TYPE
+			SYNTAX  DisplayString
+			MAX-ACCESS read-write
+			STATUS current
+			DESCRIPTION "The IPv6 address of the cluster IP table"
+			::= { clusterIPEntry 8 }
+clusterIP-prefix6 OBJECT-TYPE
+			SYNTAX  DisplayString
+			MAX-ACCESS read-write
+			STATUS current
+			DESCRIPTION "The IPv6 prefix of the cluster IP table"
+			::= { clusterIPEntry 9 }
+clusterIP-gateway6 OBJECT-TYPE
+			SYNTAX  DisplayString
+			MAX-ACCESS read-write
+			STATUS current
+			DESCRIPTION "The IPv6 gateway of the cluster IP table"
+			::= { clusterIPEntry 10 }
+			 
+physicalStorageTotal  OBJECT-TYPE
+			 SYNTAX   DisplayString 
+			 MAX-ACCESS  read-only
+			 STATUS      current
+			 DESCRIPTION "The whole capacity of the storage"
+			 ::= { physicalstorage 1 }
+	 
+physicalStorageUsed  OBJECT-TYPE
+			 SYNTAX   DisplayString 
+			 MAX-ACCESS  read-only
+			 STATUS      current
+			 DESCRIPTION "The storage capacity that have been used"
+			 ::= { physicalstorage 2 }
+	 
+physicalStorageAvailable  OBJECT-TYPE
+			 SYNTAX   DisplayString 
+			 MAX-ACCESS  read-only
+			 STATUS      current
+			 DESCRIPTION "The storage that can be used"
+			 ::= { physicalstorage 3 }
+			 
+poolStorageTotal  OBJECT-TYPE
+			 SYNTAX   DisplayString 
+			 MAX-ACCESS  read-only
+			 STATUS      current
+			 DESCRIPTION "The whole capacity of the storage"
+			 ::= { poolstorage 1 }
+	 
+poolStorageUsed  OBJECT-TYPE
+			 SYNTAX   DisplayString 
+			 MAX-ACCESS  read-only
+			 STATUS      current
+			 DESCRIPTION "The storage capacity that have been used"
+			 ::= { poolstorage 2 }
+	 
+poolStorageAvailable  OBJECT-TYPE
+			 SYNTAX   DisplayString 
+			 MAX-ACCESS  read-only
+			 STATUS      current
+			 DESCRIPTION "The storage that can be used"
+			 ::= { poolstorage 3 }
+			 
+mdiskStorageTotal  OBJECT-TYPE
+			 SYNTAX   DisplayString 
+			 MAX-ACCESS  read-only
+			 STATUS      current
+			 DESCRIPTION "The whole capacity of the storage"
+			 ::= { mdiskstorage 1 }
+	 
+mdiskStorageUsed  OBJECT-TYPE
+			 SYNTAX   DisplayString 
+			 MAX-ACCESS  read-only
+			 STATUS      current
+			 DESCRIPTION "The storage capacity that have been used"
+			 ::= { mdiskstorage 2 }
+	 
+mdiskStorageAvailable  OBJECT-TYPE
+			 SYNTAX   DisplayString 
+			 MAX-ACCESS  read-only
+			 STATUS      current
+			 DESCRIPTION "The storage that can be used"
+			 ::= { mdiskstorage 3 }
+
+mDISKTable  OBJECT-TYPE
+			SYNTAX SEQUENCE OF MDISKEntry
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "The table of the MDISK performance information"
+			::= { performance 1 }
+			
+mDISKEntry OBJECT-TYPE
+			SYNTAX MDISKEntry
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "An entry (conceptual row )in the mdisk table"	
+			INDEX { mDISKIndex }
+			::= { mDISKTable 1 }      
+			
+MDISKEntry ::=
+			SEQUENCE {
+				mDISKIndex			INTEGER, 
+				mDISK-Name			DisplayString,
+				mDISK-Status		DisplayString,
+				mDISK-Capacity		DisplayString,
+				mDISK-Mode			DisplayString,
+				mDISK-MdiskGrpID	DisplayString,
+				mDISK-MdiskGrpName	DisplayString,
+				mDISK-CtrlLUN		DisplayString,
+				mDISK-ControllerName		DisplayString,
+				mDISK-UID			DisplayString,
+				mDISK-Tier			DisplayString,
+				mDISK-Encripty		DisplayString,
+				mDISK-SiteID		DisplayString,
+				mDISK-SiteName		DisplayString,
+				mDISK-Distributed			DisplayString,
+				mDISK-Dedupe			DisplayString
+			 }		
+mDISKIndex OBJECT-TYPE
+			SYNTAX  INTEGER (1..2147483647)
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "The index of MDISK"
+			::= { mDISKEntry 1 }		
+mDISK-Name OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "The name of MDISK"
+			::= { mDISKEntry 2 }	
+mDISK-Status OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "The Status of MDISK, include : 
+				* online                                         
+				* offline                                        
+				* excluded                                       
+				* degraded_paths                                 
+				* degraded_ports                                 
+				* degraded (applies only to internal MDisks) "
+			::= { mDISKEntry 3 }	
+mDISK-Capacity OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "The Capacity of MDISK"
+			::= { mDISKEntry 4 }	
+mDISK-Mode OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "The mode of MDISK, include 
+				*unmanaged
+				*managed
+				*image
+				*array"
+			::= { mDISKEntry 5 }
+mDISK-MdiskGrpID OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "The group id of the mdisk"
+			::= { mDISKEntry 6 }
+mDISK-MdiskGrpName OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "The group name of the mdisk"
+			::= { mDISKEntry 7 }
+mDISK-CtrlLUN OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "The CtrlLUN of the mdisk"
+			::= { mDISKEntry 8 }
+mDISK-ControllerName OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "The controller name of the mdisk"
+			::= { mDISKEntry 9 }
+mDISK-UID OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "The UID of the mdisk"
+			::= { mDISKEntry 10 }
+mDISK-Tier OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "The Tier of the mdisk"
+			::= { mDISKEntry 11 }
+mDISK-Encripty OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "The Encripty of the mdisk"
+			::= { mDISKEntry 12 }
+mDISK-SiteID OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "The SiteID of the mdisk"
+			::= { mDISKEntry 13 }
+mDISK-SiteName OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "The SiteName of the mdisk"
+			::= { mDISKEntry 14 }
+mDISK-Distributed OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "The Distributed of the mdisk"
+			::= { mDISKEntry 15 }
+mDISK-Dedupe OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "The Dedupe of the mdisk"
+			::= { mDISKEntry 16 }
+
+
+
+systemStatsTable OBJECT-TYPE
+			SYNTAX SEQUENCE OF SystemStatsEntry
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "The table of the system status information"
+			::= { performance 2 }
+systemStatsEntry OBJECT-TYPE
+			SYNTAX SystemStatsEntry
+			MAX-ACCESS read-only			
+			STATUS current
+			DESCRIPTION "An entry (conceptual row )in the system status table"	
+            INDEX { systemStatusIndex }
+			::= { systemStatsTable 1 }
+SystemStatsEntry ::=
+			SEQUENCE {  
+                systemStatusIndex       INTEGER,
+				cpu-pc					DisplayString, 
+				fc-mb                   DisplayString,
+				fc-io					DisplayString,
+				sas-mb					DisplayString,
+				sas-io					DisplayString,
+				iscsi-mb				DisplayString,
+				iscsi-io				DisplayString,
+				vdisk-mb				DisplayString,
+				vdisk-io				DisplayString,
+				vdisk-ms				DisplayString,
+				mdisk-mb				DisplayString,
+				mdisk-io				DisplayString,
+				mdisk-ms				DisplayString,
+				drive-mb				DisplayString,
+				drive-io				DisplayString,
+				drive-ms				DisplayString,
+				cache-write-rate		DisplayString,
+				cache-read-rate			DisplayString,
+				vdisk-us				DisplayString,
+				mdisk-us				DisplayString,
+				drive-us				DisplayString,
+				drive-us				DisplayString,
+				rdma-front-mb			DisplayString,
+				rdma-front-io			DisplayString,
+				rdma-back-mb			DisplayString,
+				rdma-back-io			DisplayString,
+				rdma-cont-mb			DisplayString,
+				rdma-cont-io			DisplayString,
+				rdma-mb					DisplayString,
+				rdma-io					DisplayString
+			 }		
+systemStatusIndex OBJECT-TYPE
+			SYNTAX  INTEGER (1..2147483647)
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "The index of systemStatus"
+			::= { systemStatsEntry 1 }				 
+cpu-pc OBJECT-TYPE
+			SYNTAX  DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION 
+				"Displays the percentage of allocated CPU 
+				capacity utilized for the system"
+			::= { systemStatsEntry 2 }	
+fc-mb OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only			
+			STATUS current
+			DESCRIPTION 
+				"Displays the total number of megabytes transferred 
+				per second for Fibre Channel traffic on the system. 
+				This value includes host I/O and 
+				any bandwidth that is used for communication
+				within the system. "
+			::= { systemStatsEntry 3 }
+fc-io OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION 
+				"Displays the total input/output (I/O) operations  
+				transferred per seconds for Fibre Channel traffic 
+				on the system. This value includes host I/O and   
+				any bandwidth that is used for communication      
+				within the system."
+			::= { systemStatsEntry 4 }	
+			
+sas-mb OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION 
+				"Displays the total number of megabytes            
+				transferred per second for serial-attached SCSI   
+				(SAS) traffic on the system. This value includes  
+				host I/O and bandwidth that is used for           
+				background RAID activity.  "
+			::= { systemStatsEntry 5 }
+sas-io OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION 
+				"Displays the total I/O operations transferred   
+				per second for SAS traffic on the system. This   
+				value includes host I/O and bandwidth that is    
+				used for background RAID activity. "
+			::= { systemStatsEntry 6 }			
+iscsi-mb OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION 
+				"Displays the total number of megabytes            
+				transferred per second for iSCSI traffic on the   
+				system. "
+			::= { systemStatsEntry 7 }	
+iscsi-io OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION 
+				"Displays the total I/O operations transferred 
+				per second for iSCSI traffic on the system."
+			::= { systemStatsEntry 8 }
+vdisk-mb OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION 
+				"Displays the average number of megabytes          
+				transferred per second for read and write         
+				operations to volumes during the sample period."
+			::= { systemStatsEntry 9 }			
+vdisk-io OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION 
+				"Displays the average amount of I/O operations    
+				transferred per second for read and write        
+				operations to volumes during the sample period."
+			::= { systemStatsEntry 10 }			
+vdisk-ms OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION 
+				"Displays the average amount of time in            
+				milliseconds that the system takes to respond to  
+				read and write requests to volumes over the       
+				sample period. "
+			::= { systemStatsEntry 11 }
+mdisk-mb OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION 
+				"Displays the average number of megabytes 
+				transferred per second for read and write         |
+				 operations to MDisks during the sample period."
+			::= { systemStatsEntry 12 }
+mdisk-io OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION 
+				"Displays the average amount of I/O operations     
+				transferred per second for read and write         
+				operations to MDisks during the sample period. "
+			::= { systemStatsEntry 13 }
+mdisk-ms OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION 
+				"Displays the average amount of time in            
+				milliseconds that the system takes to respond to  
+				read and write requests to MDisks over the sample 
+				period. "
+			::= { systemStatsEntry 14 }
+drive-mb OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "The Bandwidth of DRIVE"
+			::= { systemStatsEntry 15 }			
+drive-io OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION 
+				"Displays the average number of megabytes          
+				transferred per second for read and write         
+				operations to drives during the sample period"
+			::= { systemStatsEntry 16 }			
+drive-ms OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION 
+				" Displays the average amount of time in            
+				milliseconds that the system takes to respond to  
+				read and write requests to drives over the sample
+				period.  "
+			::= { systemStatsEntry 17 }	
+cache-write-rate OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION 
+				" Displays the percentage of write cache
+				 of total cache capacity."
+			::= { systemStatsEntry 18 }			
+cache-read-rate OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION 
+				" Displays the percentage of read cache 
+				of total cache capacity."
+			::= { systemStatsEntry 19 }			
+vdisk-us OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION 
+				"Displays the average amount of time in            
+				microseconds that the system takes to respond to  
+				read and write requests to volumes over the       
+				sample period. "
+			::= { systemStatsEntry 20 }
+mdisk-us OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION 
+				"Displays the average amount of time in            
+				microseconds that the system takes to respond to  
+				read and write requests to MDisks over the sample 
+				period. "
+			::= { systemStatsEntry 21 }
+drive-us OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION 
+				"Displays the average amount of time in            
+				microseconds that the system takes to respond to  
+				read and write requests to drives over the sample
+				period.  "
+			::= { systemStatsEntry 22 }
+rdma-front-mb OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION 
+				"Displays the mbps of front rdma port."
+			::= { systemStatsEntry 23 }
+rdma-front-io OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION 
+				"Displays the iops of front rdma port."
+			::= { systemStatsEntry 24 }
+rdma-back-mb OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION 
+				"Displays the mbps of back rdma port."
+			::= { systemStatsEntry 25 }
+rdma-back-io OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION 
+				"Displays the iops of front rdma port."
+			::= { systemStatsEntry 26 }
+rdma-cont-mb OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION 
+				"Displays the mbps of cont rdma port."
+			::= { systemStatsEntry 27 }
+rdma-cont-io OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION 
+				"Displays the iops of cont rdma port."
+			::= { systemStatsEntry 28 }
+rdma-mb OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION 
+				"Displays the total mbps of rdma port."
+			::= { systemStatsEntry 29 }
+rdma-io OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION 
+				"Displays the total iops of rdma port."
+			::= { systemStatsEntry 30 }
+			
+fcPortMbpsTable OBJECT-TYPE
+			SYNTAX SEQUENCE OF FCPortMbpsEntry
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "The table of the fc mbps"
+			::= { performance 3 }
+FCPortMbpsEntry OBJECT-TYPE
+			SYNTAX FCPortMbpsEntry
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "An entry (conceptual row )in the fc mbps table"	
+            INDEX { fcPortID,  fcNodeID}
+			::= { fcPortMbpsTable 1 }
+FCPortMbpsEntry ::=
+			SEQUENCE {  
+                fcPortID       INTEGER,
+				fcNodeID	   INTEGER,
+				fcPortMbps     DisplayString
+			 }
+fcPortID OBJECT-TYPE
+			SYNTAX  INTEGER (1..2147483647)
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "The port id of fc"
+			::= { FCPortMbpsEntry 1 }
+fcNodeID OBJECT-TYPE
+			SYNTAX  INTEGER (1..2147483647)
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "The node id of fc"
+			::= { FCPortMbpsEntry 2 }
+fcPortMbps OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "The mbps of FC"
+			::= { FCPortMbpsEntry 3 }
+            
+nasStatsTable OBJECT-TYPE
+			SYNTAX SEQUENCE OF NasStatsEntry
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "The table of the NAS resource performance"
+			::= { performance 5 }
+NasStatsEntry OBJECT-TYPE
+			SYNTAX NasStatsEntry
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "An entry (conceptual row )in the NAS stats table"	
+			INDEX { nasStatsNodeId }
+			::= { nasStatsTable 1 }
+NasStatsEntry ::=
+			SEQUENCE {  
+				nasStatsNodeId         INTEGER,
+				nasStatsNodeName       DisplayString,
+				nasStatsSampleTime     DisplayString,
+				nasStatsCpuUsr	       DisplayString,
+				nasStatsCpuNice	       DisplayString,
+				nasStatsCpuSys         DisplayString,
+				nasStatsCpuWait        DisplayString,
+				nasStatsCpuUsed        DisplayString,
+				nasStatsCpuIsoft       DisplayString,
+				nasStatsMemUsed        DisplayString,
+				nasStatsThreadTotal    INTEGER,
+				nasStatsThreadRunning  INTEGER,
+				nasStatsThreadSleeping INTEGER,
+				nasStatsThreadStopped  INTEGER,
+				nasStatsThreadZombie   INTEGER
+			 }
+nasStatsNodeId OBJECT-TYPE
+			SYNTAX  INTEGER (1..2147483647)
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "The node id"
+			::= { NasStatsEntry 1 }
+nasStatsNodeName OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "The node name"
+			::= { NasStatsEntry 2 }
+nasStatsSampleTime OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "The smaple time"
+			::= { NasStatsEntry 3 }
+nasStatsCpuUsr OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "The cup user"
+			::= { NasStatsEntry 4 }
+nasStatsCpuNice OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "The cup nice"
+			::= { NasStatsEntry 5 }
+nasStatsCpuSys OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "The cup system"
+			::= { NasStatsEntry 6 }
+nasStatsCpuWait OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "The cup wait"
+			::= { NasStatsEntry 7 }
+nasStatsCpuUsed OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "The cup used"
+			::= { NasStatsEntry 8 }
+nasStatsCpuIsoft OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "The cup isoft"
+			::= { NasStatsEntry 9 }
+nasStatsMemUsed OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "The memory used"
+			::= { NasStatsEntry 10 }
+nasStatsThreadTotal OBJECT-TYPE
+			SYNTAX  INTEGER (1..2147483647)
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "The thread total number"
+			::= { NasStatsEntry 11 }
+nasStatsThreadRunning OBJECT-TYPE
+			SYNTAX  INTEGER (1..2147483647)
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "The running thread number"
+			::= { NasStatsEntry 12 }
+nasStatsThreadSleeping OBJECT-TYPE
+			SYNTAX  INTEGER (1..2147483647)
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "The running sleeping thread number"
+			::= { NasStatsEntry 13 }
+nasStatsThreadStopped OBJECT-TYPE
+			SYNTAX  INTEGER (1..2147483647)
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "The stopped thread number"
+			::= { NasStatsEntry 14 }
+nasStatsThreadZombie OBJECT-TYPE
+			SYNTAX  INTEGER (1..2147483647)
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "The zombie thread number"
+			::= { NasStatsEntry 15 }
+
+driveInfoTable OBJECT-TYPE
+			SYNTAX SEQUENCE OF DriveInfoEntry
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "The table of the drive information"
+			::= { information 4 }
+driveInfoEntry OBJECT-TYPE
+			SYNTAX DriveInfoEntry
+			MAX-ACCESS read-only			
+			STATUS current
+			DESCRIPTION "An entry (conceptual row )in the drive Info table"	
+            INDEX { driveID }
+			::= { driveInfoTable 1 }
+DriveInfoEntry ::=
+			SEQUENCE {  
+                driveID       			INTEGER,
+				drive-status			DisplayString, 
+				drive-capacity		    DisplayString,
+				drive-errorNumber       DisplayString,
+				drive-currentRole		DisplayString,
+				drive-techType			DisplayString,
+				drive-enclosureID		DisplayString,
+				drive-slotID			DisplayString,
+				drive-blockSize			DisplayString,
+				drive-fruID				DisplayString,
+				drive-vendorID			DisplayString,
+				drive-firmwareLevel		DisplayString,
+				drive-util  	    	DisplayString
+			 }		
+driveID OBJECT-TYPE
+			SYNTAX  INTEGER (1..2147483647)
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "The id of driver"
+			::= { driveInfoEntry 1 }				 
+drive-status OBJECT-TYPE
+			SYNTAX  DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "The status of the drive"
+			::= { driveInfoEntry 2 }	
+drive-capacity OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "The capacity of the drive"
+			::= { driveInfoEntry 3 }
+drive-errorNumber OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only			
+			STATUS current
+			DESCRIPTION "The error number of the drive"
+			::= { driveInfoEntry 4 }
+drive-currentRole OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "The current role of the drive"
+			::= { driveInfoEntry 5 }			
+drive-techType OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "The tech type of the drive"
+			::= { driveInfoEntry 6 }
+drive-enclosureID OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "The enclosure of the drive"
+			::= { driveInfoEntry 7 }			
+drive-slotID OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "The slot id of the drive"
+			::= { driveInfoEntry 8 }	
+drive-blockSize OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "The block size of the drive"
+			::= { driveInfoEntry 9 }
+drive-fruID OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "The FRU_identify of the drive"
+			::= { driveInfoEntry 10 }			
+drive-vendorID OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "The vendor id  of the drive"
+			::= { driveInfoEntry 11 }			
+drive-firmwareLevel OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "The firmware level of the drive"
+			::= { driveInfoEntry 12 }	
+drive-util OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "The util of the drive"
+			::= { driveInfoEntry 13 }	
+
+			
+-- eventInfoTable OBJECT-TYPE
+-- 			SYNTAX SEQUENCE OF EventInfoEntry
+-- 			MAX-ACCESS read-only
+-- 			STATUS current
+-- 			DESCRIPTION "The table of the event information"
+-- 			::= { information 5 }
+-- eventInfoEntry OBJECT-TYPE
+-- 			SYNTAX EventInfoEntry
+-- 			MAX-ACCESS read-only			
+-- 			STATUS current
+-- 			DESCRIPTION "An entry (conceptual row )in the event Info table"	
+--             INDEX { eventSequenceNumber }
+-- 			::= { eventInfoTable 1 }
+-- EventInfoEntry ::=
+-- 			SEQUENCE {  
+--                 eventSequenceNumber       			INTEGER,
+-- 				event-lastTime			DisplayString, 
+-- 				event-objectType       	DisplayString,
+-- 				event-objectID			DisplayString,
+-- 				event-objectName		DisplayString,
+-- 				event-status			DisplayString,
+-- 				event-fixed				DisplayString,
+-- 				event-eventID			DisplayString,
+-- 				event-errorCode			DisplayString,
+-- 				event-description		DisplayString
+-- 			 }		
+-- eventSequenceNumber OBJECT-TYPE
+-- 			SYNTAX  INTEGER (1..2147483647)
+-- 			MAX-ACCESS read-only
+-- 			STATUS current
+-- 			DESCRIPTION "The sequence number of event"
+-- 			::= { eventInfoEntry 1 }				 
+-- event-lastTime OBJECT-TYPE
+-- 			SYNTAX  DisplayString
+-- 			MAX-ACCESS read-only
+-- 			STATUS current
+-- 			DESCRIPTION "The last time the event occurs"
+-- 			::= { eventInfoEntry 2 }	
+-- event-objectType OBJECT-TYPE
+-- 			SYNTAX DisplayString
+-- 			MAX-ACCESS read-only			
+-- 			STATUS current
+-- 			DESCRIPTION "The type of the object which generates the event"
+-- 			::= { eventInfoEntry 3 }
+-- event-objectID OBJECT-TYPE
+-- 			SYNTAX DisplayString
+-- 			MAX-ACCESS read-only
+-- 			STATUS current
+-- 			DESCRIPTION "The ID of the object which generates the event"
+-- 			::= { eventInfoEntry 4 }			
+-- event-objectName OBJECT-TYPE
+-- 			SYNTAX DisplayString
+-- 			MAX-ACCESS read-only
+-- 			STATUS current
+-- 			DESCRIPTION "The name of the object which generates the event"
+-- 			::= { eventInfoEntry 5 }
+-- event-status OBJECT-TYPE
+-- 			SYNTAX DisplayString
+-- 			MAX-ACCESS read-only
+-- 			STATUS current
+-- 			DESCRIPTION "The status of the event"
+-- 			::= { eventInfoEntry 6 }			
+-- event-fixed OBJECT-TYPE
+-- 			SYNTAX DisplayString
+-- 			MAX-ACCESS read-only
+-- 			STATUS current
+-- 			DESCRIPTION "whether the event is fixed"
+-- 			::= { eventInfoEntry 7 }	
+-- event-eventID OBJECT-TYPE
+-- 			SYNTAX DisplayString
+-- 			MAX-ACCESS read-only
+-- 			STATUS current
+-- 			DESCRIPTION "The ID of the event"
+-- 			::= { eventInfoEntry 8 }
+-- event-errorCode OBJECT-TYPE
+-- 			SYNTAX DisplayString
+-- 			MAX-ACCESS read-only
+-- 			STATUS current
+-- 			DESCRIPTION "The error code of the event"
+-- 			::= { eventInfoEntry 9 }			
+-- event-description OBJECT-TYPE
+-- 			SYNTAX DisplayString
+-- 			MAX-ACCESS read-only
+-- 			STATUS current
+-- 			DESCRIPTION "The description  of the event"
+-- 			::= { eventInfoEntry 10 }		
+			
+			
+			
+			
+psuInfoTable OBJECT-TYPE
+			SYNTAX SEQUENCE OF PSUInfoEntry
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "The table of the psu information"
+			::= { information 6 }
+psuInfoEntry OBJECT-TYPE
+			SYNTAX PSUInfoEntry
+			MAX-ACCESS read-only			
+			STATUS current
+			DESCRIPTION "An entry (conceptual row )in the psu Info table"	
+            INDEX { psuID, psu-enclosureID }
+			::= { psuInfoTable 1 }
+PSUInfoEntry ::=
+			SEQUENCE {  
+                psuID       			INTEGER,
+				psu-enclosureID			INTEGER, 
+				psu-status       		DisplayString,
+				psu-inputFail				DisplayString,
+				psu-outputFail				DisplayString,
+				psu-inputPower			DisplayString,
+				psu-outputPower			DisplayString,
+				psu-redundant			DisplayString,
+				psu-errorSequenceNumber		DisplayString,
+				psu-fruID				DisplayString
+			 }		
+psuID OBJECT-TYPE
+			SYNTAX  INTEGER (1..2147483647)
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "Indicates the ID of the PSU in the enclosure."
+			::= { psuInfoEntry 1 }				 
+psu-enclosureID OBJECT-TYPE
+			SYNTAX  INTEGER (1..2147483647)
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "Indicates the ID of the enclosure containing the PSU"
+			::= { psuInfoEntry 2 }	
+psu-status OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only			
+			STATUS current
+			DESCRIPTION "Indicates the status of the power and cooling unit
+						in the enclosure:
+						* online indicates a PSU is present and working
+						normally 
+						* offline indicates a PSU cannot be detected
+						* degraded indicates a PSU is present but not 
+						working normally"
+			::= { psuInfoEntry 3 }
+psu-inputFail OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "* on indicates no usable input power is detected
+						   from the power distribution unit.
+						 * off indicates the input power is OK. "
+			::= { psuInfoEntry 4 }			
+psu-outputFail OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "* on indicates no usable output power is detected
+						   from the distribution unit.
+						 * off indicates the output power is OK. "
+			::= { psuInfoEntry 5 }
+psu-inputPower OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "* ac indicates the power supply requires AC power input.
+						 * dc indicates the power supply requires DC power input.                                              |
+						 * unknown indicates the power supply is not known or cannot be determined."
+			::= { psuInfoEntry 6 }		
+			
+psu-outputPower OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "reserved"
+			::= { psuInfoEntry 7 }	
+psu-redundant OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "Indicates (yes or no) whether you can remove the 
+					     power supply:
+						 * If the PSU is on an expansion enclosure, the 
+						   other PSU must be online.
+						 * If the PSU is on a control enclosure, the other
+						   PSU must be online and the battery on that PSU must
+						   contain enough charge to allow the canisters to
+						   dump state and cache data before shutting down."
+			::= { psuInfoEntry 8 }
+psu-errorSequenceNumber OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "Indicates the error log (or event log) number of
+						 the highest priority error for this object. This is
+						 typically blank; however, if there is a problem 
+					     (for example, the status is degraded), then it
+						  contains the sequence number of that error event."
+			::= { psuInfoEntry 9 }			
+psu-fruID OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "Indicates the 11S number, combining the 
+						 manufacturing part number and the serial number. "
+			::= { psuInfoEntry 10 }
+
+
+fanInfoTable OBJECT-TYPE
+			SYNTAX SEQUENCE OF FANInfoEntry
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "The table of the fan information, except 2U devices"
+			::= { information 7 }
+fanInfoEntry OBJECT-TYPE
+			SYNTAX FANInfoEntry
+			MAX-ACCESS read-only			
+			STATUS current
+			DESCRIPTION "An entry (conceptual row )in the fan Info table"	
+            INDEX { fanID, fan-enclosureID }
+			::= { fanInfoTable 1 }
+FANInfoEntry ::=
+			SEQUENCE {  
+                fanID       			INTEGER,
+				fan-enclosureID			DisplayString, 
+				fan-status       		DisplayString,
+				fan-faultLedStatus			DisplayString,
+				fan-errorSequenceNumber			DisplayString,
+				fan-fruID				DisplayString
+			 }		
+fanID OBJECT-TYPE
+			SYNTAX  INTEGER (1..2147483647)
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "Indicates the fan module ID of the fan module 
+						 that is in the enclosure. The possible values are
+						 1 or 2. "
+			::= { fanInfoEntry 1 }				 
+fan-enclosureID OBJECT-TYPE
+			SYNTAX  DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "Indicates the enclosure ID of the enclosure that
+						 contains the fan module. "
+			::= { fanInfoEntry 2 }	
+fan-status OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only			
+			STATUS current
+			DESCRIPTION "Indicates the combined status of the fan module 
+						and any contained fans. The values are:
+						* online
+						* offline
+						* degraded  "
+			::= { fanInfoEntry 3 }
+fan-faultLedStatus OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "Indicates the status of the fault light-emitting
+						 diode (LED) on the fan module:
+						* on, which indicates that the LED is on
+						* off, which indicates that the LED is off
+						* unknown, which indicates that the LED status 
+						is unknown   "
+			::= { fanInfoEntry 4 }			
+fan-errorSequenceNumber OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "Indicates the event log sequence number of the
+						current event that is logged against the fan 
+						module. It is blank if there is no current event. "
+			::= { fanInfoEntry 5 }			
+fan-fruID OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "Indicates the FRU identity of the fan module."
+			::= { fanInfoEntry 6 }	
+
+
+bbuInfoTable OBJECT-TYPE
+			SYNTAX SEQUENCE OF BBUInfoEntry
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "The table of the bbu information"
+			::= { information 8 }
+bbuInfoEntry OBJECT-TYPE
+			SYNTAX BBUInfoEntry
+			MAX-ACCESS read-only			
+			STATUS current
+			DESCRIPTION "An entry (conceptual row )in the bbu Info table"	
+            INDEX { bbuID, bbu-enclosureID }
+			::= { bbuInfoTable 1 }
+BBUInfoEntry ::=
+			SEQUENCE {  
+                bbuID       			INTEGER,
+				bbu-enclosureID			INTEGER, 
+				bbu-status       		DisplayString,
+				bbu-chargingStatus		DisplayString,
+				bbu-percentCharged		DisplayString,
+				bbu-capacityLeftMAH		DisplayString,
+				bbu-fullCapacityMAH		DisplayString,
+				bbu-powerOnHours		DisplayString,
+				bbu-firmwareLevel		DisplayString,
+				bbu-fruID				DisplayString
+			 }		
+bbuID OBJECT-TYPE
+			SYNTAX  INTEGER (1..2147483647)
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "Identifies the battery in the enclosure. "
+			::= { bbuInfoEntry 1 }				 
+bbu-enclosureID OBJECT-TYPE
+			SYNTAX  INTEGER (1..2147483647)
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "Identifies the identity of the enclosure that 
+					contains the battery."
+			::= { bbuInfoEntry 2 }	
+bbu-status OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only			
+			STATUS current
+			DESCRIPTION "Identifies the status of the battery:
+						* online indicates the battery is present and 
+							working as usual.
+						* degraded indicates the battery is present
+							but not working as usual.
+						* offline indicates the battery cannot be
+							detected."
+			::= { bbuInfoEntry 3 }
+bbu-chargingStatus OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "Identifies the charging state of the battery:
+						* charged indicates the battery is fully charged.
+						* charging indicates the battery is charging.  
+						* discharging indicates the battery is losing voltage (life).
+						* idle indicates the battery is neither
+							charging nor discharging but it is not fully charged. "
+			::= { bbuInfoEntry 4 }			
+bbu-percentCharged OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "Indicates the charge of battery (in a percentage)"
+			::= { bbuInfoEntry 5 }
+bbu-capacityLeftMAH OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "Identifies the battery's remaining charge 
+						 capacity in milliampere-hour (mAh). "
+			::= { bbuInfoEntry 6 }			
+bbu-fullCapacityMAH OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "Identifies the fully-charged capacity of the
+						 battery in mAh (this diminishes as the battery ages). "
+			::= { bbuInfoEntry 7 }	
+bbu-powerOnHours OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "Identifies the number of hours the battery has
+						been in a powered node (not necessarily the same node)."
+			::= { bbuInfoEntry 8 }
+bbu-firmwareLevel OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "The version of the microcode image that is 
+						 installed on the battery."
+			::= { bbuInfoEntry 9 }			
+bbu-fruID OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "Identifies the 11S number, combining the
+						 manufacturing part number and the serial number. "
+			::= { bbuInfoEntry 10 }	
+
+
+enclosureInfoTable OBJECT-TYPE
+			SYNTAX SEQUENCE OF EnclosureInfoEntry
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "The table of the enclosure information"
+			::= { information 9 }
+enclosureInfoEntry OBJECT-TYPE
+			SYNTAX EnclosureInfoEntry
+			MAX-ACCESS read-only			
+			STATUS current
+			DESCRIPTION "An entry (conceptual row )in the enclosure Info table"	
+            INDEX { enclosureID }
+			::= { enclosureInfoTable 1 }
+EnclosureInfoEntry ::=
+			SEQUENCE {  
+                enclosureID       			INTEGER,
+				enclosure-status       		DisplayString,
+				enclosure-type				DisplayString,
+				enclosure-managed			DisplayString,
+				enclosure-productMTM		DisplayString,
+				enclosure-serialNumber		DisplayString,
+				enclosure-totalCanister		DisplayString,
+				enclosure-onlineCanister	DisplayString,
+				enclosure-totalPSU			DisplayString,
+				enclosure-onlinePSU			DisplayString,
+				enclosure-driverSlot		DisplayString,
+				enclosure-fruID				DisplayString
+			 }		
+enclosureID OBJECT-TYPE
+			SYNTAX  INTEGER (1..2147483647)
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "Indicates the ID of the enclosure. "
+			::= { enclosureInfoEntry 1 }				 
+enclosure-status OBJECT-TYPE
+			SYNTAX  DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "Indicates if an enclosure is visible to the SAS
+					network:
+						* online if a managed or unmanaged enclosure is visible 
+						* offline if a managed enclosure is not visible,
+						  and other fields hold their last known values.
+						* degraded if an enclosure is visible, but not 
+						  down both strands "
+			::= { enclosureInfoEntry 2 }	
+enclosure-type OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only			
+			STATUS current
+			DESCRIPTION "Indicates the type of enclosure:
+						* control
+						* expansion"
+			::= { enclosureInfoEntry 3 }
+enclosure-managed OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "Indicates if the enclosure is managed: 
+						 * yes 
+						 * no "
+			::= { enclosureInfoEntry 4 }			
+enclosure-productMTM OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "Indicates the product machine type and model. "
+			::= { enclosureInfoEntry 5 }
+enclosure-serialNumber OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "Indicates the serial number of the enclosure. This  
+					is the product serial number, which indicates the   
+					enclosure and its contents. The enclosure has its   
+					own serial number, which is embedded in the         
+					FRU_identity 11S data.  "
+			::= { enclosureInfoEntry 6 }			
+enclosure-totalCanister OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "Indicates the maximum number of canisters for this enclosure type."
+			::= { enclosureInfoEntry 7 }	
+enclosure-onlineCanister OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "Indicates the number of canisters contained in 
+						this enclosure that are online."
+			::= { enclosureInfoEntry 8 }
+enclosure-totalPSU OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "Indicates the number of power and cooling units in this enclosure."
+			::= { enclosureInfoEntry 9 }			
+enclosure-onlinePSU OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "Indicates the number of power-supply units (PSUs)
+					contained in this enclosure that are online."
+			::= { enclosureInfoEntry 10 }
+enclosure-driverSlot OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "Indicates the number of drive slots in the enclosure"
+			::= { enclosureInfoEntry 11 }
+enclosure-fruID OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "Indicates the 11S serial number that combines the
+						manufacturing part number and the serial number."
+			::= { enclosureInfoEntry 12 }	
+
+
+			
+canisterInfoTable OBJECT-TYPE
+			SYNTAX SEQUENCE OF CanisterInfoEntry
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "The table of the canister information"
+			::= { information 10 }
+canisterInfoEntry OBJECT-TYPE
+			SYNTAX CanisterInfoEntry
+			MAX-ACCESS read-only			
+			STATUS current
+			DESCRIPTION "An entry (conceptual row )in the canister Info table"	
+            INDEX { canisterID, canister-enclosureID }
+			::= { canisterInfoTable 1 }
+CanisterInfoEntry ::=
+			SEQUENCE {  
+                canisterID       			INTEGER,
+				canister-enclosureID       	INTEGER,
+				canister-status       		DisplayString,
+				canister-type				DisplayString,
+				canister-temperature		DisplayString,
+				canister-fruID				DisplayString
+			 }		
+canisterID OBJECT-TYPE
+			SYNTAX  INTEGER (1..2147483647)
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "Identifies which of the canisters in the enclosure."
+			::= { canisterInfoEntry 1 }	
+canister-enclosureID OBJECT-TYPE
+			SYNTAX INTEGER (1..2147483647)
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "The identity of the enclosure that contains the canister."
+			::= { canisterInfoEntry 2 }			
+canister-status OBJECT-TYPE
+			SYNTAX  DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "The status of the canister:
+						* online: the canister is present and working normally.
+						* degraded: the canister is present but not working normally
+						* offline: the canister could not be detected. "
+			::= { canisterInfoEntry 3 }	
+canister-type OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only			
+			STATUS current
+			DESCRIPTION "The type of canister: 
+						* node
+						* expansion "
+			::= { canisterInfoEntry 4 }
+canister-temperature OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "The temperature of the canister in degrees Centigrade. "
+			::= { canisterInfoEntry 5 }			
+canister-fruID OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "The 11S number that combines the manufacturing part 
+						number and the serial number."
+			::= { canisterInfoEntry 6 }		
+		
+
+iscsiPortInfoTable OBJECT-TYPE
+			SYNTAX SEQUENCE OF ISCSIPortInfoEntry
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "The table of the iscsiPort information"
+			::= { expandCardInfo 1 }
+iscsiPortInfoEntry OBJECT-TYPE
+			SYNTAX ISCSIPortInfoEntry
+			MAX-ACCESS read-only			
+			STATUS current
+			DESCRIPTION "An entry (conceptual row )in the iscsiPort Info table"	
+            INDEX { iscsiPort-index }
+			::= { iscsiPortInfoTable 1 }
+ISCSIPortInfoEntry ::=
+			SEQUENCE {  
+                iscsiPortID       			INTEGER,
+				iscsiPort-nodeID       		INTEGER,
+				iscsiPort-protocolType      DisplayString,
+				iscsiPort-ip				DisplayString,
+				iscsiPort-mask				DisplayString,
+				iscsiPort-gateWay			DisplayString,
+				iscsiPort-ipv6				DisplayString,
+				iscsiPort-prefix6			DisplayString,
+				iscsiPort-gateWay6			DisplayString,
+				iscsiPort-mac				DisplayString,
+				iscsiPort-duplex			DisplayString,
+				iscsiPort-state				DisplayString,
+				iscsiPort-linkState			DisplayString,
+				iscsiPort-host				DisplayString,
+				iscsiPort-remoteCopy		DisplayString,
+				iscsiPort-index				INTEGER
+			 }		
+iscsiPortID OBJECT-TYPE
+			SYNTAX  INTEGER (1..2147483647)
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "Indicates the ID of the Ethernet port."
+			::= { iscsiPortInfoEntry 1 }	
+iscsiPort-nodeID OBJECT-TYPE
+			SYNTAX INTEGER (1..2147483647)
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "Indicates the ID of the node that contains the port."
+			::= { iscsiPortInfoEntry 2 }			
+iscsiPort-protocolType OBJECT-TYPE
+			SYNTAX  DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "The protocol type of iscsiPort"
+			::= { iscsiPortInfoEntry 3 }	
+iscsiPort-ip OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only			
+			STATUS current
+			DESCRIPTION "Indicates the IPv4 address (and is blank if there is none)"
+			::= { iscsiPortInfoEntry 4 }
+iscsiPort-mask OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "Indicates the IPv4 subnet mask (and is blank if there is none)"
+			::= { iscsiPortInfoEntry 5 }			
+iscsiPort-gateWay OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "Indicates the IPv4 gateway (and is blank if there is none)"
+			::= { iscsiPortInfoEntry 6 }
+iscsiPort-ipv6 OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only			
+			STATUS current
+			DESCRIPTION "Indicates the IPv6 address (and is blank if there is none)"
+			::= { iscsiPortInfoEntry 7 }
+iscsiPort-prefix6 OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "Indicates the IPv6 prefix (and is blank if there is none)"
+			::= { iscsiPortInfoEntry 8 }			
+iscsiPort-gateWay6 OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "Indicates the IPv6 gateway address (and is blank if there is none)"
+			::= { iscsiPortInfoEntry 9 }			
+iscsiPort-mac OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "Indicates the current MAC address (blank if unknown)"
+			::= { iscsiPortInfoEntry 10 }				
+iscsiPort-duplex OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "Indicates the current duplex state of the port(blank if unknown) "
+			::= { iscsiPortInfoEntry 11 }	
+iscsiPort-state OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "Indicates the state of iSCSI addresses. The values can be:
+						* unconfigured: There is no iSCSI address (or hardware might not exist).
+						* configured: The iSCSI address is configured.
+						* management_only: It is not configurable for I/O operations.  "
+			::= { iscsiPortInfoEntry 12 }	
+iscsiPort-linkState OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "Indicates the link state of ethernet port. The
+						 values are active and inactive."
+			::= { iscsiPortInfoEntry 13 }
+iscsiPort-host OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "Displays the IPv4 address used for host attach."
+			::= { iscsiPortInfoEntry 14 }			
+iscsiPort-remoteCopy OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "Displays the IPv4 remote copy port group ID. Remote
+						copy includes Synch Copy, Async Copy and InMetro. "
+			::= { iscsiPortInfoEntry 15 }	
+iscsiPort-index OBJECT-TYPE
+			SYNTAX  INTEGER (1..2147483647)
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "Indicates the index of the records."
+			::= { iscsiPortInfoEntry 16 }
+
+sasPortInfoTable OBJECT-TYPE
+			SYNTAX SEQUENCE OF SASPortInfoEntry
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "The table of the sasPort information"
+			::= { expandCardInfo 2 }
+sasPortInfoEntry OBJECT-TYPE
+			SYNTAX SASPortInfoEntry
+			MAX-ACCESS read-only			
+			STATUS current
+			DESCRIPTION "An entry (conceptual row )in the sasPort Info table"	
+            INDEX { sasID }
+			::= { sasPortInfoTable 1 }
+SASPortInfoEntry ::=
+			SEQUENCE {  
+                sasID       			INTEGER,
+				sasPort-nodeID       		DisplayString,
+				sasPort-portID      		DisplayString,
+				sasPort-portSpeed			DisplayString,
+				sasPort-WWPN				DisplayString,
+				sasPort-status				DisplayString,
+				sasPort-switchWWPN			DisplayString,
+				sasPort-attachment			DisplayString,
+				sasPort-type				DisplayString
+			 }		
+sasID OBJECT-TYPE
+			SYNTAX  INTEGER (1..2147483647)
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "Indicates the line number within the displayed information (numeric string). "
+			::= { sasPortInfoEntry 1 }	
+sasPort-nodeID OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "Indicates the ID of the node containing the port (numeric string)."
+			::= { sasPortInfoEntry 2 }			
+sasPort-portID OBJECT-TYPE
+			SYNTAX  DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "Indicates the ID of the port.  "
+			::= { sasPortInfoEntry 3 }	
+sasPort-portSpeed OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only			
+			STATUS current
+			DESCRIPTION "Indicates the speed of the I/O port (in XGb). This 
+						is the fastest local link speed for the SAS port. 
+						The value is the last-known port speed if the port 
+						is inactive, and N/A if port is unused and has 
+						never been active. "
+			::= { sasPortInfoEntry 4 }
+sasPort-WWPN OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "Indicates the worldwide port name (WWPN) for the 
+						I/O port (16-character hexadecimal string). "
+			::= { sasPortInfoEntry 5 }			
+sasPort-status OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "Indicates the status of the port (numeric string).
+					The values can be:
+					* online if functioning
+					* offline if not functioning
+					* offline_unconfigured if not functioning but not 
+						configured by the user 
+					* degraded if one or more ports are not  
+						functioning or have a lower speed than others 
+					* excluded if excluded by the user or system "
+			::= { sasPortInfoEntry 6 }	
+sasPort-switchWWPN OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "Indicates the WWPN of the switch port if attached   
+						to switch (16-character hexadecimal string), or is  
+						blank. If the port is offline, the last-known value 
+						is displayed. "
+			::= { sasPortInfoEntry 7 }				
+sasPort-attachment OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "Indicates what the port is attached to. The
+						possible values are: 
+							* drive
+							* controller
+							* switch 
+							* host
+							* enclosure
+							* none  
+						If the port is offline, the field shows what was 
+						attached when the port was last online."
+			::= { sasPortInfoEntry 8 }	
+sasPort-type OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "Indicates how the port is configured. This field 
+						also shows what devices can be attached to the SAS 
+						port. The possible values are:
+							* drive  
+							* enclosure
+							* enclosure_controller 
+							* host_controller
+							* none  "
+			::= { sasPortInfoEntry 9 }
+
+
+
+fcPortInfoTable OBJECT-TYPE
+			SYNTAX SEQUENCE OF FCPortInfoEntry
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "The table of the fcPort information"
+			::= { expandCardInfo 3 }
+fcPortInfoEntry OBJECT-TYPE
+			SYNTAX FCPortInfoEntry
+			MAX-ACCESS read-only			
+			STATUS current
+			DESCRIPTION "An entry (conceptual row )in the fcPort Info table"	
+            INDEX { fcID }
+			::= { fcPortInfoTable 1 }
+FCPortInfoEntry ::=
+			SEQUENCE {  
+                fcID       			INTEGER,
+				fcPort-nodeID       	DisplayString,
+				fcPort-portID      		DisplayString,
+				fcPort-portSpeed		DisplayString,
+				fcPort-WWPN				DisplayString,
+				fcPort-status			DisplayString,
+				fcPort-switchWWPN		DisplayString,
+				fcPort-attachment		DisplayString,
+				fcPort-fabricWWN		DisplayString,
+				fcPort-type				DisplayString
+			 }		
+fcID OBJECT-TYPE
+			SYNTAX  INTEGER (1..2147483647)
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "Indicates a unique value for the object. The value
+						must be a numeric 0 or greater. "
+			::= { fcPortInfoEntry 1 }	
+fcPort-nodeID OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "Indicates the ID of the node containing the port. 
+						The value must be a positive integer. "
+			::= { fcPortInfoEntry 2 }			
+fcPort-portID OBJECT-TYPE
+			SYNTAX  DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "Indicates the platform port ID. The value must be a 
+						positive integer.  "
+			::= { fcPortInfoEntry 3 }	
+fcPort-portSpeed OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only			
+			STATUS current
+			DESCRIPTION "Indicates the I/O port speed. The value is XGb. The
+						value is N/A if the port has never been active. If
+						the port is inactive it shows the last-known port peed.   "
+			::= { fcPortInfoEntry 4 }
+fcPort-WWPN OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "Indicates the I/O port worldwide port name (WWPN).
+						The value must be in 16-character hexadecimal format."
+			::= { fcPortInfoEntry 5 }			
+fcPort-status OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "Indicates if the port is configured to a device of
+						Fibre Channel (FC) port. The values are:
+						* active
+						* inactive_configured
+						* inactive_unconfigured.   "
+			::= { fcPortInfoEntry 6 }	
+fcPort-switchWWPN OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "Indicates the WWPN of the device most recently 
+						attached to the port. The value must be in 
+						16-character hexadecimal format, or all zeroes if
+						the port has never been active.  "
+			::= { fcPortInfoEntry 7 }				
+fcPort-attachment OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "Indicates if the port is attached to an FC switch 
+						or directly to an FC host. (Or, if the port is    
+						offline, it specifies which one it was attached to  
+						when last online.)  "
+			::= { fcPortInfoEntry 8 }
+fcPort-fabricWWN OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "Indicates the World Wide Name (WWN) value for the   
+					connected fabric string. The value must be in       
+					16-character hexadecimal format, or all zeroes if   
+					the port has never been active or the port is not   
+					connected to a fabric. "
+			::= { fcPortInfoEntry 9 }			
+fcPort-type OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "Indicates the type of platform port. The value can be either fc or ethernet."
+			::= { fcPortInfoEntry 10 }			
+
+rdmaPortTable OBJECT-TYPE
+			SYNTAX SEQUENCE OF RdmaPortEntry
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "The table of the rdma port information"
+			::= { expandCardInfo 4 }
+rdmaPortEntry OBJECT-TYPE
+			SYNTAX RdmaPortEntry
+			MAX-ACCESS read-only			
+			STATUS current
+			DESCRIPTION "An entry (conceptual row )in the rdma port Info table"	
+			INDEX { rdmaPort-id }
+			::= { rdmaPortTable 1 }
+RdmaPortEntry ::=
+			SEQUENCE {  
+				rdmaPort-id       			INTEGER,
+				rdmaPort-nodeID             INTEGER,
+				rdmaPort-nodeName           DisplayString,
+				rdmaPort-portID             INTEGER,
+				rdmaPort-type               DisplayString,
+				rdmaPort-status             DisplayString,
+				rdmaPort-nStatus            INTEGER,
+				rdmaPort-gid		        DisplayString,
+				rdmaPort-gid6               DisplayString,
+				rdmaPort-guid               DisplayString,
+				rdmaPort-adapterLocation    DisplayString,
+				rdmaPort-adapterPortID      DisplayString,
+			 }	
+             
+rdmaPort-id OBJECT-TYPE
+			SYNTAX  INTEGER (1..2147483647)
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "id of rdma port list. "
+			::= { rdmaPortEntry 1 }	
+rdmaPort-nodeID OBJECT-TYPE
+			SYNTAX  INTEGER (1..2147483647)
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "node id of rdma port. "
+			::= { rdmaPortEntry 2 }		
+rdmaPort-nodeName OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only			
+			STATUS current
+			DESCRIPTION "node name of rdma port. "
+			::= { rdmaPortEntry 3 }            
+rdmaPort-portID OBJECT-TYPE
+			SYNTAX  INTEGER (1..2147483647)
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "port id of rdma port. "
+			::= { rdmaPortEntry 4 }	
+rdmaPort-type OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only			
+			STATUS current
+			DESCRIPTION "type of rdma port. "
+			::= { rdmaPortEntry 5 }
+rdmaPort-status OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only			
+			STATUS current
+			DESCRIPTION "status of rdma port. "
+			::= { rdmaPortEntry 6 }			
+rdmaPort-nStatus OBJECT-TYPE
+			SYNTAX  INTEGER (1..2147483647)
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "the number of rdma port status . The values are:
+						* 0: active
+						* 1: inactive "
+			::= { rdmaPortEntry 7 }	
+rdmaPort-gid OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "gid of rdma port.  "
+			::= { rdmaPortEntry 8 }				
+rdmaPort-gid6 OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "gid_6 of rdma port.  "
+			::= { rdmaPortEntry 9 }			
+rdmaPort-guid OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "guid of rdma port.  "
+			::= { rdmaPortEntry 10 }
+rdmaPort-adapterLocation OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "adapter location of rdma port.  "
+			::= { rdmaPortEntry 11 }			
+rdmaPort-adapterPortID OBJECT-TYPE
+			SYNTAX DisplayString
+			MAX-ACCESS read-only
+			STATUS current
+			DESCRIPTION "adapter port ID of rdma port.  "
+			::= { rdmaPortEntry 12 }
+
+END
+

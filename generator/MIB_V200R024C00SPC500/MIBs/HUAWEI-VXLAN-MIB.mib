@@ -1,0 +1,116 @@
+-- =================================================================
+-- Copyright (C) 2022 by HUAWEI TECHNOLOGIES. All rights reserved.
+-- Description: Vxlan management.
+-- Reference:
+-- Version: V1.01
+--
+-- =================================================================
+
+    HUAWEI-VXLAN-MIB DEFINITIONS ::= BEGIN
+        IMPORTS
+            hwDatacomm
+                FROM HUAWEI-MIB
+            RowStatus
+                FROM SNMPv2-TC
+            IpAddress, Integer32, Unsigned32, Counter32, Counter64, OBJECT-TYPE, MODULE-IDENTITY, NOTIFICATION-TYPE
+                FROM SNMPv2-SMI
+             OBJECT-GROUP, MODULE-COMPLIANCE, NOTIFICATION-GROUP
+                FROM SNMPv2-CONF;
+
+        hwVxlanMIB MODULE-IDENTITY
+            LAST-UPDATED "202211150000Z"
+            ORGANIZATION "Huawei Technologies Co.,Ltd."
+            CONTACT-INFO
+                "Huawei Industrial Base
+                  Bantian, Longgang
+                   Shenzhen 518129
+                   People's Republic of China
+                   Website: http://www.huawei.com
+                   Email: support@huawei.com
+                "
+            DESCRIPTION
+                "Vxlan management.
+                "
+
+            -- Revision history
+
+            REVISION    "202211150000Z"
+            DESCRIPTION  "V1.0 Initial version"
+            ::= { hwDatacomm 668 }
+--
+-- Textual conventions
+--
+--
+-- Node definitions
+--
+       hwVxlanTrapsVbOids OBJECT IDENTIFIER ::= { hwVxlanMIB 1 }
+        hwVxlanStaticTunnelNum  OBJECT-TYPE
+            SYNTAX Integer32
+            MAX-ACCESS accessible-for-notify
+            STATUS current
+            DESCRIPTION
+                "Number of static tunnels."
+            ::= { hwVxlanTrapsVbOids 1 }  
+
+        hwVxlanL2DynTunnelNum OBJECT-TYPE
+            SYNTAX Integer32
+            MAX-ACCESS accessible-for-notify
+            STATUS current
+            DESCRIPTION
+                "Number of l2 dynamic tunnels."
+            ::= { hwVxlanTrapsVbOids 2 }
+
+        hwVxlanL3DynTunnelNum OBJECT-TYPE
+            SYNTAX Integer32
+            MAX-ACCESS accessible-for-notify
+            STATUS current
+            DESCRIPTION
+                "Number of l3 dynamic tunnels."
+            ::= { hwVxlanTrapsVbOids 3 }
+
+        hwVxlanTunnelSpec OBJECT-TYPE
+            SYNTAX Integer32
+            MAX-ACCESS accessible-for-notify
+            STATUS current
+            DESCRIPTION
+                "Maximum number of tunnels."
+            ::= { hwVxlanTrapsVbOids 4 }
+
+
+       hwVxlanTraps OBJECT IDENTIFIER ::= { hwVxlanMIB 2 }
+        hwVxlanTunnelFull NOTIFICATION-TYPE
+            OBJECTS { hwVxlanStaticTunnelNum, hwVxlanL2DynTunnelNum, hwVxlanL3DynTunnelNum, hwVxlanTunnelSpec }
+            STATUS current
+            DESCRIPTION
+                "The number of vxlan tunnels exceeds the upper limit."
+            ::= { hwVxlanTraps 1 }
+
+
+          hwVxlanConformance OBJECT IDENTIFIER ::= { hwVxlanMIB 3 }
+            hwVxlanCompliances OBJECT IDENTIFIER ::= { hwVxlanConformance 1 }
+            hwVxlanFullCompliance MODULE-COMPLIANCE
+                STATUS current
+                DESCRIPTION
+                    "hwVxlanFullCompliance"
+                MODULE 
+                    MANDATORY-GROUPS { hwVxlanVbGrops, hwVxlanTrapGroup }
+                ::= { hwVxlanCompliances 1 }
+
+            hwVxlanGroups OBJECT IDENTIFIER ::= { hwVxlanConformance 2 }
+              hwVxlanVbGrops OBJECT-GROUP
+                  OBJECTS { hwVxlanStaticTunnelNum, hwVxlanL2DynTunnelNum, hwVxlanL3DynTunnelNum, hwVxlanTunnelSpec }
+                STATUS current
+                DESCRIPTION
+                    "A collection of objects providing information about vxlan."
+                ::= {  hwVxlanGroups 1 }
+
+              hwVxlanTrapGroup NOTIFICATION-GROUP
+                  NOTIFICATIONS { hwVxlanTunnelFull }
+                STATUS current
+                DESCRIPTION
+                    "The trap enable group."
+                ::= {  hwVxlanGroups 2 }
+    END
+--
+-- HUAWEI-VXLAN-MIB.mib
+--

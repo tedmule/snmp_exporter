@@ -1,0 +1,449 @@
+-- 
+-- Copyright(C) Inspur Corp. 2016,2017
+--
+--
+-- COMPONENT NAME: indigo_SNMP
+-- FILE NAME: /mcs/module_src/user/ic/MCS_MIB_7.8.1.MIB
+-- DESCRIPTION: Indigo SNMP MIB file.
+--
+-- ****************************************************
+--
+-- Change Log.
+--
+-- 20-02-2017   gaoruisheng File creation
+-- 06-07-2018   gaoruisheng Add event fixed OID
+--
+
+Inspur-MCS-MIB DEFINITIONS ::=
+BEGIN 
+IMPORTS 
+	OBJECT-TYPE, NOTIFICATION-TYPE, MODULE-IDENTITY, 
+	enterprises 
+          FROM SNMPv2-SMI 
+
+        MODULE-COMPLIANCE, OBJECT-GROUP,
+        NOTIFICATION-GROUP
+          FROM SNMPv2-CONF                 
+
+        SnmpAdminString
+          FROM SNMP-FRAMEWORK-MIB;         -- RFC2571
+          
+inspur2145TSVE MODULE-IDENTITY 
+        LAST-UPDATED "201607140000Z"
+	ORGANIZATION "Inspur SSG" 
+	CONTACT-INFO 
+		"Contact Inspur Support"
+	DESCRIPTION 
+                "This file defines the private Inspur Multiple Controller System
+                 (previously TSVE) MIB extensions used to receive traps from MCS 
+                 "
+        REVISION "201611010000Z"
+        DESCRIPTION
+                "Inspur Multiple Controller System MIB for MCS 7.8.0
+                 The MCS MIB has been renamed to indicate that it is
+                 for MCS Lodestone 7.8.0 release.
+                 There have been no additional objects defined."
+        REVISION "201607140000Z"
+        DESCRIPTION
+                "Inspur Multiple Controller System MIB for MCS 7.7.1
+                 The MCS MIB has been renamed to indicate that it is
+                 for MCS Lodestone 7.7.1 release.
+                 There have been no additional objects defined."
+        REVISION "201604280000Z"
+        DESCRIPTION
+                "Inspur Multiple Controller System MIB for MCS 7.7.0
+                 The MCS MIB has been renamed to indicate that it is
+                 for MCS Lodestone 7.7.0 release.
+                 The tsveIDAL object has been defined since the previous
+                 release."
+        REVISION "201601220000Z"
+        DESCRIPTION
+                "Inspur Multiple Controller System MIB for MCS 7.6.1
+                 The MCS MIB has been renamed to indicate that it is
+                 for MCS Lodestone 7.6.1 release.
+                 There have been no additional objects defined."
+        REVISION "201511250000Z"
+        DESCRIPTION
+                "Inspur Multiple Controller System MIB for MCS 7.6.0
+                 The MCS MIB has been renamed to indicate that it is
+                 for MCS Lodestone 7.6.0 release.
+                 There have been no additional objects defined."
+        REVISION "201504170000Z"
+        DESCRIPTION
+                "Inspur Multiple Controller System MIB for MCS 7.5.0
+                 The MCS MIB has been renamed to indicate that it is
+                 for MCS Lodestone 7.5.0 release.
+                 There have been no additional objects defined."
+        REVISION "201409010000Z"
+        DESCRIPTION
+                "Inspur Multiple Controller System MIB for MCS 7.4.0
+                 The MCS MIB has been renamed to indicate that it is
+                 for MCS Lodestone 7.4.0 release. 
+                 There have been no additional objects defined.
+                 A typo was fixed in the derived type name SnmpAdminString
+                 of the tsveOBJN object definition."
+        REVISION "201309240000Z"
+        DESCRIPTION
+                "Inspur Multiple Controller System MIB for MCS 7.3.0
+                 The MCS MIB has been renamed to indicate that it is
+                 for MCS Lodestone 7.3.0 release. 
+                 There have been no additional objects defined."
+        REVISION "201309240000Z"
+        DESCRIPTION
+                "Inspur Multiple Controller System MIB for MCS 7.2.0
+                 The MCS MIB has been renamed to indicate that it is
+                 for MCS Lodestone 7.2.0 release. 
+                 There have been no additional objects defined."
+        REVISION "201309240000Z"
+        DESCRIPTION
+                "Inspur Multiple Controller System MIB for MCS 7.1.0
+                 The MCS MIB has been renamed to indicate that it is
+                 for MCS Lodestone 7.1.0 release.
+                 The tsveOBJN object has been defined since the previous
+                 release."             
+        REVISION "201211060000Z"
+        DESCRIPTION
+                "Inspur Multiple Controller System MIB for MCS 6.4.1
+                 The MCS MIB has been renamed to indicate that it is
+                 for MCS Lodestone 6.4.1 release.
+                 The tsveMPNO object has been defined since the previous
+                 release."
+        REVISION "201204190000Z"
+        DESCRIPTION
+                "Inspur Multiple Controller System MIB for MCS 6.4.0
+                 The MCS MIB has been renamed to indicate that it is
+                 for MCS Lodestone 6.4.0 release.
+                 There have been no additional objects defined."
+        REVISION "201105260000Z"
+        DESCRIPTION
+                "Inspur Multiple Controller System MIB for MCS 6.3.0
+                 The MCS MIB has been renamed to indicate that it is
+                 for MCS Lodestone 6.3.0 release.
+                 There have been no additional objects defined."
+        REVISION "201105260000Z"
+        DESCRIPTION
+                "Inspur Multiple Controller System MIB for MCS 6.2.0
+                 The MCS MIB has been renamed to indicate that it is
+                 for MCS Lodestone 6.2.0 release.
+                 There have been no additional objects defined."
+        REVISION "201005070000Z"
+        DESCRIPTION
+                "Inspur Multiple Controller System MIB for MCS 6.1.0
+                 The MCS MIB has been renamed to indicate that it is
+                 for MCS Lodestone 6.1.0 release.
+                 There have been no additional objects defined."
+        REVISION "200909010000Z"
+        DESCRIPTION
+                "Inspur Multiple Controller System MIB for MCS 5.1.0
+                 The MCS MIB has been extensively tidied within this release.
+                 The MIB label has been corrected to Inspur-MCS-MIB. This name
+                 will be maintained in future releases.
+                 There have been no additional objects defined."
+        REVISION "200805120000Z"
+        DESCRIPTION
+                "Inspur TSVE MIB for MCS 4.3.1
+                 A number of previous TSVE (MCS) MIB revisions exist.
+                 The tsveADD1, tsveADD2 and tsveCOPY objects have been defined
+                 since the original release."
+	::= { inspurProd 190 } 
+
+
+inspur              OBJECT IDENTIFIER ::= { enterprises 48512 }
+inspurProd   	 OBJECT IDENTIFIER ::= { inspur 6 }
+
+inspur2145TSVEObjects OBJECT IDENTIFIER ::= { inspur2145TSVE 4 }
+inspur2145TSVEConformance OBJECT IDENTIFIER ::= { inspur2145TSVE 5 }
+
+tsveCriticalTrap NOTIFICATION-TYPE
+	OBJECTS { 
+		tsveMACH,
+		tsveSERI,
+		tsveERRI,
+		tsveERRC,
+		tsveSWVE,
+		tsveFRUP,
+		tsveCLUS,
+		tsveNODE,
+		tsveERRS,
+                tsveTIME,
+                tsveOBJT,
+                tsveOBJI,
+                tsveADD1, 
+                tsveADD2,
+                tsveCOPY,
+                tsveMPNO,
+                tsveOBJN,
+                tsveIDAL,
+                tsveFIXED
+	}
+	STATUS current
+      DESCRIPTION
+          "tsve error trap"
+
+      ::= { inspur2145TSVE 1 }
+
+tsveWarningTrap NOTIFICATION-TYPE
+	OBJECTS { 
+		tsveMACH,
+		tsveSERI,
+		tsveERRI,
+		tsveERRC,
+		tsveSWVE,
+		tsveFRUP,
+		tsveCLUS,
+		tsveNODE,
+		tsveERRS,
+                tsveTIME,
+                tsveOBJT,
+                tsveOBJI,
+                tsveADD1, 
+                tsveADD2,
+                tsveCOPY,
+                tsveMPNO,
+                tsveOBJN,
+                tsveIDAL,
+                tsveFIXED
+	}
+	STATUS current
+      DESCRIPTION
+          "tsve warning trap"
+
+      ::= { inspur2145TSVE 2 }
+
+tsveInformationTrap NOTIFICATION-TYPE
+	OBJECTS { 
+		tsveMACH,
+		tsveSERI,
+		tsveERRI,
+		tsveERRC,
+		tsveSWVE,
+		tsveFRUP,
+		tsveCLUS,
+		tsveNODE,
+		tsveERRS,
+                tsveTIME,
+                tsveOBJT,
+                tsveOBJI,
+                tsveADD1, 
+                tsveADD2,
+                tsveCOPY,
+                tsveMPNO,
+                tsveOBJN,
+                tsveIDAL,
+                tsveFIXED
+	}
+	STATUS current
+      DESCRIPTION
+          "tsve information trap"
+
+      ::= { inspur2145TSVE 3 }
+
+tsveMACH OBJECT-TYPE
+	SYNTAX SnmpAdminString
+	MAX-ACCESS accessible-for-notify
+	STATUS current
+	DESCRIPTION
+		"Inspur TSVE machine type"
+	::= { inspur2145TSVEObjects 1 }
+
+tsveSERI OBJECT-TYPE
+	SYNTAX SnmpAdminString
+	MAX-ACCESS accessible-for-notify
+	STATUS current
+	DESCRIPTION
+		"Inspur TSVE serial number"
+	::= { inspur2145TSVEObjects 2 }
+
+tsveERRI OBJECT-TYPE
+	SYNTAX SnmpAdminString
+	MAX-ACCESS accessible-for-notify
+	STATUS current
+	DESCRIPTION
+		"Inspur TSVE error ID"
+	::= { inspur2145TSVEObjects 3 }
+
+tsveERRC OBJECT-TYPE
+	SYNTAX SnmpAdminString
+	MAX-ACCESS accessible-for-notify
+	STATUS current
+	DESCRIPTION
+		"Inspur TSVE error code"
+	::= { inspur2145TSVEObjects 4 }
+
+tsveSWVE OBJECT-TYPE
+	SYNTAX SnmpAdminString
+	MAX-ACCESS accessible-for-notify
+	STATUS current
+	DESCRIPTION
+		"Inspur TSVE software version"
+	::= { inspur2145TSVEObjects 5 }
+
+tsveFRUP OBJECT-TYPE
+	SYNTAX SnmpAdminString
+	MAX-ACCESS accessible-for-notify
+	STATUS current
+	DESCRIPTION
+		"Inspur TSVE FRU part number"
+	::= { inspur2145TSVEObjects 6 }
+
+tsveCLUS OBJECT-TYPE
+	SYNTAX SnmpAdminString
+	MAX-ACCESS accessible-for-notify
+	STATUS current
+	DESCRIPTION
+		"Inspur TSVE cluster name"
+	::= { inspur2145TSVEObjects 7 }
+
+tsveNODE OBJECT-TYPE
+	SYNTAX SnmpAdminString
+	MAX-ACCESS accessible-for-notify
+	STATUS current
+	DESCRIPTION
+		"Inspur TSVE node identifier"
+	::= { inspur2145TSVEObjects 8 }
+
+tsveERRS OBJECT-TYPE
+	SYNTAX SnmpAdminString
+	MAX-ACCESS accessible-for-notify
+	STATUS current
+	DESCRIPTION
+		"Inspur TSVE error sequence number"
+	::= { inspur2145TSVEObjects 9 }
+
+tsveTIME OBJECT-TYPE
+	SYNTAX SnmpAdminString
+	MAX-ACCESS accessible-for-notify
+	STATUS current
+	DESCRIPTION
+		"Inspur TSVE last error time stamp"
+	::= { inspur2145TSVEObjects 10 }
+
+tsveOBJT OBJECT-TYPE
+	SYNTAX SnmpAdminString
+	MAX-ACCESS accessible-for-notify
+	STATUS current
+	DESCRIPTION
+		"Inspur TSVE object type"
+	::= { inspur2145TSVEObjects 11 }
+
+tsveOBJI OBJECT-TYPE
+	SYNTAX SnmpAdminString
+	MAX-ACCESS accessible-for-notify
+	STATUS current
+	DESCRIPTION
+		"Inspur TSVE object ID"
+	::= { inspur2145TSVEObjects 12 }
+
+tsveADD1 OBJECT-TYPE
+	SYNTAX SnmpAdminString
+	MAX-ACCESS accessible-for-notify
+	STATUS current
+	DESCRIPTION
+		"Inspur TSVE Additional data"
+	::= { inspur2145TSVEObjects 13 }
+
+tsveADD2 OBJECT-TYPE
+	SYNTAX SnmpAdminString
+	MAX-ACCESS accessible-for-notify
+	STATUS current
+	DESCRIPTION
+		"Inspur TSVE Additional data"
+	::= { inspur2145TSVEObjects 14 }
+
+tsveCOPY OBJECT-TYPE
+	SYNTAX SnmpAdminString
+	MAX-ACCESS accessible-for-notify
+	STATUS current
+	DESCRIPTION
+		"Inspur TSVE Copy ID"
+	::= { inspur2145TSVEObjects 15 }
+
+tsveMPNO OBJECT-TYPE
+	SYNTAX SnmpAdminString
+	MAX-ACCESS accessible-for-notify
+	STATUS current
+	DESCRIPTION
+		"Inspur TSVE Machine Part Number"
+	::= { inspur2145TSVEObjects 16 }
+
+tsveOBJN OBJECT-TYPE
+        SYNTAX SnmpAdminString
+        MAX-ACCESS accessible-for-notify
+        STATUS current
+        DESCRIPTION
+                "Inspur (orginally TSVE) object name"
+        ::= { inspur2145TSVEObjects 17 }
+        
+tsveIDAL OBJECT-TYPE
+        SYNTAX SnmpAdminString
+        MAX-ACCESS accessible-for-notify
+        STATUS current
+        DESCRIPTION
+                "Inspur (orginally TSVE) cluster alias"
+        ::= { inspur2145TSVEObjects 18 }
+        
+tsveFIXED OBJECT-TYPE
+        SYNTAX SnmpAdminString
+        MAX-ACCESS accessible-for-notify
+        STATUS current
+        DESCRIPTION
+                "Inspur TSVE event fixed flag"
+        ::= { inspur2145TSVEObjects 19 }
+        
+tsveCompliances OBJECT IDENTIFIER ::= { inspur2145TSVEConformance 1 }
+tsveGroups      OBJECT IDENTIFIER ::= { inspur2145TSVEConformance 2 }
+
+tsveCompliance MODULE-COMPLIANCE
+      STATUS  current
+      DESCRIPTION
+              "The compliance statement for the TSVE-MIB."
+      MODULE  -- this module
+          MANDATORY-GROUPS {
+                              tsveRequiredObjectsGroup,
+                              tsveNotifGroup
+                           }
+      ::= { tsveCompliances 1 }
+
+-- MIB groupings
+
+tsveRequiredObjectsGroup OBJECT-GROUP
+     OBJECTS {
+		tsveMACH,
+		tsveSERI,
+		tsveERRI,
+		tsveERRC,
+		tsveSWVE,
+		tsveFRUP,
+		tsveCLUS,
+		tsveNODE,
+		tsveERRS,
+                tsveTIME,
+                tsveOBJT,
+                tsveOBJI,
+                tsveADD1, 
+                tsveADD2,
+                tsveCOPY,
+                tsveMPNO,
+                tsveOBJN,
+                tsveIDAL,
+                tsveFIXED
+              }
+    STATUS current
+    DESCRIPTION
+        "The objects defined in this MIB module that MUST
+         be implemented by a compliant implementation."
+    ::= { tsveGroups 1 }
+
+tsveNotifGroup NOTIFICATION-GROUP
+     NOTIFICATIONS {
+                    tsveCriticalTrap,
+                    tsveWarningTrap,
+                    tsveInformationTrap
+                   }
+     STATUS  current
+     DESCRIPTION
+        "All notifications defined in this MIB module MUST
+         be implemented by a compliant implementation."
+     ::= { tsveGroups 2 }
+
+END

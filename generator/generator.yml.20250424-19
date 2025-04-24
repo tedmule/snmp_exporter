@@ -1,0 +1,29 @@
+auths:
+  huawei_auth:
+    version: 2
+    community: stsy20241
+modules:
+  huawei_mib:
+    walk:
+      - sysUpTime
+      - interfaces
+      - ifXTable
+      - sysDescr
+      - sysName
+      - 1.3.6.1.2.1.31.1.1.1.1
+    lookups:
+      - source_indexes: [ifIndex]
+        lookup: ifAlias
+      - source_indexes: [ifIndex]
+        lookup: 1.3.6.1.2.1.2.2.1.2 # ifDescr
+      - source_indexes: [ifIndex]
+        lookup: 1.3.6.1.2.1.31.1.1.1.1 # ifName
+    overrides:
+      ifAlias:
+        ignore: true
+      ifDescr:
+        ignore: true
+      ifName:
+        ignore: true
+      ifType:
+        type: EnumAsInfo
